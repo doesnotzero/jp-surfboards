@@ -835,47 +835,48 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           .configurator-overlay {
             align-items: flex-end;
             padding: 0;
-            padding-top: 1rem;
+            padding-top: 0.5rem;
           }
           .configurator-modal {
-            height: 85vh;
-            max-height: 85vh;
+            height: 75vh;
+            max-height: 75vh;
             width: 100%;
             border-radius: 16px 16px 0 0;
             max-width: 100%;
           }
           .configurator-progress-container {
-            padding: 1rem 1.5rem 0.5rem;
+            padding: 0.75rem 1.25rem 0.5rem;
           }
           .step-label-item {
-            font-size: 0.4rem;
+            font-size: 0.35rem;
             letter-spacing: 0.05em;
           }
           .configurator-content {
-            padding: 1.5rem;
+            padding: 1rem 1.25rem;
           }
           .configurator-actions {
-            padding: 1rem 1.5rem;
+            padding: 0.75rem 1.25rem;
           }
           .config-grid-options {
             grid-template-columns: 1fr;
-            gap: 0.75rem;
+            gap: 0.6rem;
           }
           .config-grid-boards {
             grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
           }
           .summary-grid {
             grid-template-columns: 1fr;
-            gap: 0.6rem;
+            gap: 0.5rem;
           }
           .summary-board-block {
             flex-direction: column;
             align-items: flex-start;
-            gap: 1rem;
+            gap: 0.75rem;
           }
           .summary-board-img {
             width: 100%;
-            height: 140px;
+            height: 120px;
           }
         }
         @media (max-width: 480px) {
