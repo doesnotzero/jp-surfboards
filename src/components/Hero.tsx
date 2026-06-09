@@ -150,24 +150,6 @@ export const Hero: React.FC = () => {
             {/* Fine Technical Line Overlay */}
             <div className="hero-tech-line-h" />
             <div className="hero-tech-line-v" />
-            
-
-            <span
-              className="text-mono"
-              style={{
-                position: 'absolute',
-                bottom: '-2rem',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                fontSize: '0.48rem',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              [ SHAPER INICIO ]
-            </span>
           </div>
         </div>
       </div>
@@ -231,8 +213,8 @@ export const Hero: React.FC = () => {
       <style>{`
         .hero-image-frame-container {
           position: relative;
-          width: 360px;
-          height: 520px;
+          width: 620px;
+          height: 380px;
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .hero-image-frame-container:hover {
