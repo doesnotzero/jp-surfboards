@@ -89,7 +89,6 @@ export const Gallery: React.FC = () => {
                 height: '100%',
                 position: 'relative',
                 overflow: 'hidden',
-                border: '1px solid var(--border)',
                 background: 'var(--surface-2)',
                 transition: 'all 0.3s ease',
               }}
@@ -102,35 +101,13 @@ export const Gallery: React.FC = () => {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
+                  objectPosition: 'center',
                   display: 'block',
-                  opacity: 0.75,
+                  opacity: 0.8,
                   transition: 'transform 0.5s ease, opacity 0.5s ease',
                 }}
                 loading="lazy"
               />
-              
-              <span
-                className="text-mono gallery-caption"
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  fontSize: '0.48rem',
-                  letterSpacing: '0.22em',
-                  textTransform: 'uppercase',
-                  color: 'var(--text)',
-                  padding: '0.6rem 0.8rem',
-                  background: 'rgba(5, 5, 5, 0.85)',
-                  borderTop: '1px solid var(--border)',
-                  zIndex: 2,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <span>{item.title}</span>
-                <span style={{ color: 'var(--accent)' }}>{item.subtitle}</span>
-              </span>
             </div>
           </div>
         ))}
@@ -140,8 +117,8 @@ export const Gallery: React.FC = () => {
         .gallery-grid-container {
           display: grid;
           grid-template-columns: repeat(12, 1fr);
-          grid-auto-rows: 170px;
-          gap: 12px;
+          grid-auto-rows: 200px;
+          gap: 0;
         }
 
         .gallery-item {
@@ -156,19 +133,19 @@ export const Gallery: React.FC = () => {
         .g-card-5 { grid-column: span 6; grid-row: span 2; }
 
         .photo-card {
-          border: 1px solid var(--border);
           background: var(--surface-2);
           transition: all 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .photo-card:hover {
           border-color: var(--accent) !important;
-          box-shadow: 0 10px 30px rgba(179, 18, 23, 0.15);
+          box-shadow: inset 0 0 40px rgba(179, 18, 23, 0.1);
         }
         
         .photo-card:hover img {
-          transform: scale(1.03);
-          opacity: 0.95 !important;
+          transform: scale(1.02);
+          opacity: 1 !important;
         }
 
         @media (max-width: 900px) {
@@ -177,8 +154,8 @@ export const Gallery: React.FC = () => {
           }
           .gallery-grid-container {
             grid-template-columns: repeat(6, 1fr) !important;
-            grid-auto-rows: 150px !important;
-            gap: 8px !important;
+            grid-auto-rows: 160px !important;
+            gap: 0 !important;
           }
           .g-card-1 { grid-column: span 6 !important; grid-row: span 2 !important; }
           .g-card-2 { grid-column: span 3 !important; grid-row: span 1 !important; }
@@ -194,8 +171,8 @@ export const Gallery: React.FC = () => {
           }
           .gallery-grid-container {
             grid-template-columns: 1fr !important;
-            grid-auto-rows: 240px !important;
-            gap: 12px !important;
+            grid-auto-rows: 260px !important;
+            gap: 0 !important;
           }
           .gallery-item {
             grid-column: span 1 !important;

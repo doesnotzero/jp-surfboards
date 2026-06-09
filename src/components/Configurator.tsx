@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { boards } from '../data/boards';
+import { validateEmail } from '../utils/debounce';
+
+interface ConfiguratorOpenEvent extends CustomEvent<{ modelId?: string }> {
+  detail: { modelId?: string };
+}
 
 interface ConfiguratorData {
   name: string;
@@ -13,9 +18,20 @@ interface ConfiguratorData {
   height?: string;
 }
 
+interface ValidationError {
+  name?: string;
+  phone?: string;
+  email?: string;
+  level?: string;
+  waveType?: string;
+  goal?: string;
+  modelId?: string;
+}
+
 export const Configurator: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState(1);
+  const [errors, setErrors] = useState<ValidationError>({});
   const [formData, setFormData] = useState<ConfiguratorData>({
     name: '',
     phone: '',
@@ -31,16 +47,19 @@ export const Configurator: React.FC = () => {
   // Listen to open events from other components
   useEffect(() => {
     const handleOpen = (e: Event) => {
-      const customEvent = e as CustomEvent;
-      if (customEvent.detail && customEvent.detail.modelId) {
-        setFormData((prev) => ({ ...prev, modelId: customEvent.detail.modelId }));
+      const customEvent = e as ConfiguratorOpenEvent;
+      const modelId = customEvent.detail?.modelId;
+      if (modelId) {
+        setFormData((prev) => ({ ...prev, modelId }));
       }
       setIsOpen(true);
       setStep(1);
+      setErrors({});
     };
     window.addEventListener('open-configurator', handleOpen);
     return () => window.removeEventListener('open-configurator', handleOpen);
   }, []);
+
 
   const stepsList = [
     { num: 1, name: "Identificação" },
@@ -52,26 +71,35 @@ export const Configurator: React.FC = () => {
   ];
 
   const handleNext = () => {
-    // Basic validation
+    const newErrors: ValidationError = {};
+
+    // Validation logic
     if (step === 1) {
-      if (!formData.name || !formData.phone) {
-        alert("Por favor, preencha seu nome e telefone para podermos registrar seu perfil.");
-        return;
+      if (!formData.name.trim()) {
+        newErrors.name = 'Nome é obrigatório';
+      }
+      if (!formData.phone.trim()) {
+        newErrors.phone = 'Telefone é obrigatório';
+      }
+      if (formData.email && !validateEmail(formData.email)) {
+        newErrors.email = 'Email inválido';
       }
     } else if (step === 2 && !formData.level) {
-      alert("Por favor, selecione seu nível de surf.");
-      return;
+      newErrors.level = 'Selecione seu nível de surf';
     } else if (step === 3 && !formData.waveType) {
-      alert("Por favor, selecione o tipo de onda.");
-      return;
+      newErrors.waveType = 'Selecione o tipo de onda';
     } else if (step === 4 && !formData.goal) {
-      alert("Por favor, selecione seu objetivo no surf.");
-      return;
+      newErrors.goal = 'Selecione seu objetivo';
     } else if (step === 5 && !formData.modelId) {
-      alert("Por favor, escolha um modelo de prancha.");
+      newErrors.modelId = 'Escolha um modelo';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
-    
+
+    setErrors({});
     setStep((prev) => prev + 1);
   };
 
@@ -169,8 +197,10 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                     placeholder="Seu nome completo"
                     value={formData.name}
                     onChange={(e) => selectOption('name', e.target.value)}
-                    className="config-input text-mono"
+                    className={`config-input text-mono ${errors.name ? 'input-error' : ''}`}
+                    aria-invalid={!!errors.name}
                   />
+                  {errors.name && <span className="input-error-message">{errors.name}</span>}
                 </div>
                 <div className="config-input-wrapper">
                   <input
@@ -179,8 +209,10 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                     placeholder="WhatsApp (com DDD)"
                     value={formData.phone}
                     onChange={(e) => selectOption('phone', e.target.value)}
-                    className="config-input text-mono"
+                    className={`config-input text-mono ${errors.phone ? 'input-error' : ''}`}
+                    aria-invalid={!!errors.phone}
                   />
+                  {errors.phone && <span className="input-error-message">{errors.phone}</span>}
                 </div>
                 <div className="config-input-wrapper">
                   <input
@@ -188,8 +220,10 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                     placeholder="Seu e-mail (opcional)"
                     value={formData.email}
                     onChange={(e) => selectOption('email', e.target.value)}
-                    className="config-input text-mono"
+                    className={`config-input text-mono ${errors.email ? 'input-error' : ''}`}
+                    aria-invalid={!!errors.email}
                   />
+                  {errors.email && <span className="input-error-message">{errors.email}</span>}
                 </div>
 
                 <div className="config-input-row">

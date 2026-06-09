@@ -231,6 +231,26 @@ body::before {
   transform: translateY(-2px);
 }
 
+/* Mobile menu scroll lock */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Form validation styles */
+.input-error {
+  border-color: #ff4444 !important;
+  background-color: rgba(255, 68, 68, 0.05) !important;
+}
+
+.input-error-message {
+  display: block;
+  color: #ff6666;
+  font-size: 0.65rem;
+  margin-top: 6px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
 /* Responsiveness overrides */
 @media(max-width: 900px) {
   .stringer-line {

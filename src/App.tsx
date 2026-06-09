@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -7,25 +7,30 @@ import { Process } from './components/Process';
 import { Gallery } from './components/Gallery';
 import { Footer } from './components/Footer';
 import { Configurator } from './components/Configurator';
+import { debounce } from './utils/debounce';
 
-export const App: React.FC = () => {
+const App: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   // Stringer scroll progress tracker
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        const progress = (window.scrollY / totalHeight) * 100;
-        setScrollProgress(progress);
-      }
-    };
+  const debouncedScroll = useMemo(
+    () =>
+      debounce(() => {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (totalHeight > 0) {
+          const progress = (window.scrollY / totalHeight) * 100;
+          setScrollProgress(progress);
+        }
+      }, 10),
+    []
+  );
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+  useEffect(() => {
+    window.addEventListener('scroll', debouncedScroll, { passive: true });
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', debouncedScroll);
     };
-  }, []);
+  }, [debouncedScroll]);
 
   // Intersection Observer for Scroll Reveal
   useEffect(() => {
@@ -217,4 +222,5 @@ export const App: React.FC = () => {
     </>
   );
 };
+
 export default App;

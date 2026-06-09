@@ -30,25 +30,7 @@ export const Hero: React.FC = () => {
         }}
       />
 
-      {/* Vertical Shaper Signature */}
-      <div
-        className="text-mono"
-        style={{
-          position: 'absolute',
-          right: '24px',
-          top: '50%',
-          transform: 'translateY(-50%) rotate(90deg)',
-          transformOrigin: 'center',
-          fontSize: '0.52rem',
-          letterSpacing: '0.45em',
-          textTransform: 'uppercase',
-          color: 'rgba(138, 138, 138, 0.25)',
-          whiteSpace: 'nowrap',
-          zIndex: 3,
-        }}
-      >
-        Florianópolis, SC — Brasil — Est. 2020
-      </div>
+
 
       {/* Main Content Layout */}
       <div
@@ -150,8 +132,7 @@ export const Hero: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            borderLeft: '1px solid var(--border)',
-            paddingLeft: '3rem',
+            paddingLeft: '1.5rem',
           }}
           className="hero-right-side"
         >
@@ -170,24 +151,7 @@ export const Hero: React.FC = () => {
             <div className="hero-tech-line-h" />
             <div className="hero-tech-line-v" />
             
-            {/* Specs detail boxes overlay */}
-            <div
-              className="text-mono"
-              style={{
-                position: 'absolute',
-                right: '-60px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.75rem',
-                zIndex: 5,
-              }}
-            >
-              <div style={specsOverlayStyle}>Shape Manual</div>
-              <div style={specsOverlayStyle}>Florianópolis</div>
-              <div style={specsOverlayStyle}>Blank Virgem</div>
-            </div>
+
             <span
               className="text-mono"
               style={{
@@ -267,17 +231,17 @@ export const Hero: React.FC = () => {
       <style>{`
         .hero-image-frame-container {
           position: relative;
-          width: 320px;
-          height: 480px;
+          width: 360px;
+          height: 520px;
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .hero-image-frame-container:hover {
-          transform: rotate(-2deg) scale(1.02);
+          transform: rotate(-1.5deg) scale(1.015);
         }
         .hero-image-frame {
           width: 100%;
           height: 100%;
-          border: 1px solid var(--border);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           position: relative;
           overflow: hidden;
           background: var(--surface-2);
@@ -286,12 +250,13 @@ export const Hero: React.FC = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          object-position: center;
           display: block;
-          opacity: 0.75;
+          opacity: 0.85;
           transition: opacity 0.3s ease;
         }
         .hero-image-frame-container:hover .hero-desktop-img {
-          opacity: 0.9;
+          opacity: 0.95;
         }
         .hero-img-overlay-lines {
           position: absolute;
@@ -300,30 +265,16 @@ export const Hero: React.FC = () => {
           background-image: repeating-linear-gradient(
             -45deg,
             transparent,
-            transparent 14px,
-            rgba(179, 18, 23, 0.04) 14px,
-            rgba(179, 18, 23, 0.04) 15px
+            transparent 20px,
+            rgba(179, 18, 23, 0.02) 20px,
+            rgba(179, 18, 23, 0.02) 21px
           );
         }
         .hero-tech-line-h {
-          position: absolute;
-          left: -20px;
-          right: -20px;
-          top: 30px;
-          height: 1px;
-          background: rgba(179, 18, 23, 0.2);
-          pointer-events: none;
-          z-index: 4;
+          display: none;
         }
         .hero-tech-line-v {
-          position: absolute;
-          top: -20px;
-          bottom: -20px;
-          left: 30px;
-          width: 1px;
-          background: rgba(179, 18, 23, 0.2);
-          pointer-events: none;
-          z-index: 4;
+          display: none;
         }
         
         /* Mobile Specific Style */
@@ -339,16 +290,17 @@ export const Hero: React.FC = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          object-position: center;
           display: block;
-          border: 1px solid var(--border);
-          opacity: 0.8;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          opacity: 0.85;
         }
         .mobile-hero-img-border {
           position: absolute;
           inset: 0;
           pointer-events: none;
           border: 1px solid var(--accent);
-          opacity: 0.3;
+          opacity: 0.2;
           margin: 4px;
         }
 
@@ -415,15 +367,7 @@ const taglineItemStyle: React.CSSProperties = {
   gap: '0.6rem',
 };
 
-const specsOverlayStyle: React.CSSProperties = {
-  fontSize: '0.48rem',
-  letterSpacing: '0.18em',
-  textTransform: 'uppercase',
-  color: 'rgba(245, 245, 245, 0.35)',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '0.5rem',
-};
+
 
 const footLinkStyle: React.CSSProperties = {
   fontSize: '0.52rem',

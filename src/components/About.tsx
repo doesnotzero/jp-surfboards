@@ -27,7 +27,6 @@ export const About: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            borderRight: '1px solid var(--border)',
           }}
           className="about-text-side"
         >
@@ -122,7 +121,7 @@ export const About: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '40px 0',
+            padding: '20px 0',
           }}
           className="about-visual-side"
         >
@@ -154,9 +153,10 @@ export const About: React.FC = () => {
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
+                objectPosition: 'center',
                 display: 'block',
-                opacity: 0.8,
-                transition: 'opacity 0.3s ease',
+                opacity: 0.85,
+                transition: 'opacity 0.3s ease, transform 0.6s ease',
               }}
               loading="lazy"
             />
@@ -179,11 +179,11 @@ export const About: React.FC = () => {
           color: var(--accent);
         }
         .about-photo-wrapper {
-          width: 70%;
-          max-width: 320px;
-          aspect-ratio: 3/4;
+          width: 95%;
+          max-width: 600px;
+          aspect-ratio: 16/9;
           background: var(--surface-2);
-          border: 1px solid var(--border);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           position: relative;
           overflow: hidden;
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
@@ -201,7 +201,7 @@ export const About: React.FC = () => {
           );
         }
         .about-visual-side:hover .about-photo-wrapper {
-          transform: rotate(-2deg) scale(1.02);
+          transform: scale(1.02);
           border-color: var(--accent);
         }
         .about-visual-side:hover .about-photo-wrapper img {

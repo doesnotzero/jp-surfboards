@@ -67,7 +67,6 @@ export const Catalog: React.FC = () => {
                 gridTemplateColumns: '1fr 1fr',
                 minHeight: '100vh',
                 position: 'relative',
-                borderBottom: '1px solid var(--border)',
                 overflow: 'hidden',
               }}
             >
@@ -81,10 +80,8 @@ export const Catalog: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  borderRight: isAlt ? 'none' : '1px solid var(--border)',
-                  borderLeft: isAlt ? '1px solid var(--border)' : 'none',
                   order: isAlt ? 2 : 1,
-                  padding: '60px 4vw',
+                  padding: '30px 2.5vw',
                 }}
               >
                 {/* Tech drawing overlays (grid texture) */}
@@ -163,15 +160,15 @@ export const Catalog: React.FC = () => {
                   className="catalog-card"
                   style={{
                     width: '100%',
-                    maxWidth: '360px',
+                    maxWidth: '460px',
                     aspectRatio: '2/3',
                     background: '#FFFFFF',
-                    border: '1px solid var(--border)',
+                    border: '1px solid rgba(0, 0, 0, 0.1)',
                     position: 'relative',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '2.5rem 1.5rem',
+                    padding: '1.75rem 1rem',
                     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6)',
                     transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease',
                   }}
