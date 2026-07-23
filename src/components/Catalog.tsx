@@ -249,14 +249,18 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
           </button>
         </div>
 
-        {/* Stage */}
-        <div className="lb-stage" onClick={(e) => e.stopPropagation()}>
+        {/* Stage (tocar na área escura fecha) */}
+        <div className="lb-stage">
           {photos.length > 1 && (
-            <button className="lb-nav lb-prev" onClick={prevPhoto} aria-label="Foto anterior">
+            <button
+              className="lb-nav lb-prev"
+              onClick={(e) => { e.stopPropagation(); prevPhoto(); }}
+              aria-label="Foto anterior"
+            >
               ‹
             </button>
           )}
-          <div className="lb-img-wrap">
+          <div className="lb-img-wrap" onClick={(e) => e.stopPropagation()}>
             <img
               key={photos[photoIndex]}
               src={photos[photoIndex]}
@@ -269,7 +273,11 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
             <span className="lb-corner br" />
           </div>
           {photos.length > 1 && (
-            <button className="lb-nav lb-next" onClick={nextPhoto} aria-label="Próxima foto">
+            <button
+              className="lb-nav lb-next"
+              onClick={(e) => { e.stopPropagation(); nextPhoto(); }}
+              aria-label="Próxima foto"
+            >
               ›
             </button>
           )}
@@ -364,7 +372,7 @@ export const Catalog: React.FC = () => {
             color: 'rgba(138, 138, 138, 0.5)',
           }}
         >
-          <span style={{ color: 'var(--accent)' }}>[ Catálogo ]</span>
+          <span style={{ color: 'var(--accent)' }}>[ Modelos ]</span>
           <span>{String(boards.length).padStart(2, '0')} Modelos · Sob Encomenda</span>
         </div>
 
@@ -396,8 +404,8 @@ export const Catalog: React.FC = () => {
                 color: 'var(--text)',
               }}
             >
-              Catálogo
-              <span style={{ display: 'block', color: 'var(--accent)' }}>Técnico</span>
+              Nossos
+              <span style={{ display: 'block', color: 'var(--accent)' }}>Modelos</span>
             </h2>
           </div>
 
@@ -848,9 +856,19 @@ export const Catalog: React.FC = () => {
         }
         @media (max-width: 600px) {
           .lb { padding: 1rem; }
-          .lb-nav { display: none; }
-          .lb-name { font-size: 0.95rem; }
-          .lb-thumb { width: 46px; height: 46px; }
+          .lb-name { font-size: 0.9rem; }
+          .lb-cat { font-size: 0.5rem; }
+          .lb-thumb { width: 44px; height: 44px; }
+          .lb-nav { width: 38px; height: 38px; font-size: 1.2rem; }
+          .lb-stage { gap: 0.4rem; }
+          .lb-counter { display: none; }
+          .lb-close {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 1.2rem;
+          }
         }
         .catalog-expand-hint {
           opacity: 0;
@@ -868,7 +886,6 @@ export const Catalog: React.FC = () => {
           transform: scale(1.02);
         }
         .catalog-card {
-          will-change: transform, box-shadow;
           contain: layout style paint;
         }
         @media (max-width: 900px) {

@@ -38,6 +38,7 @@ export const Header: React.FC = () => {
   return (
     <>
       <nav
+        className="site-nav"
         style={{
           position: 'fixed',
           top: 0,
@@ -85,7 +86,7 @@ export const Header: React.FC = () => {
           </li>
           <li className="desktop-only-item">
             <a href="#catalog" style={navLinkStyle}>
-              Catálogo
+              Modelos
             </a>
           </li>
           <li className="desktop-only-item">
@@ -192,7 +193,7 @@ export const Header: React.FC = () => {
           Fábrica
         </a>
         <a href="#catalog" onClick={closeMobileMenu} style={mobileLinkStyle}>
-          Catálogo
+          Modelos
         </a>
         <a href="#order" onClick={closeMobileMenu} style={mobileLinkStyle}>
           Encomenda
@@ -218,6 +219,14 @@ export const Header: React.FC = () => {
       </nav>
 
       <style>{`
+        /* No mobile, remove o blur do header fixo (custa caro no scroll)
+           e usa fundo opaco. */
+        @media (max-width: 768px) {
+          .site-nav {
+            backdrop-filter: none !important;
+            background: #050505 !important;
+          }
+        }
         @media (max-width: 900px) {
           .desktop-only-item {
             display: none !important;

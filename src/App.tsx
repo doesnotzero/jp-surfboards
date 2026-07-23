@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -9,33 +9,33 @@ import { Testimonials } from './components/Testimonials';
 import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
 import { Configurator } from './components/Configurator';
-import { debounce } from './utils/debounce';
 
 const App: React.FC = () => {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [showWidgets, setShowWidgets] = useState(false);
+  const stringerRef = useRef<HTMLDivElement>(null);
+  const widgetsRef = useRef<HTMLDivElement>(null);
 
-  // Stringer scroll progress tracker
-  const debouncedScroll = useMemo(
-    () =>
-      debounce(() => {
-        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        if (totalHeight > 0) {
-          const progress = (window.scrollY / totalHeight) * 100;
-          setScrollProgress(progress);
-        }
-        // Mostra os botões flutuantes depois de sair do topo
-        setShowWidgets(window.scrollY > 400);
-      }, 10),
-    []
-  );
-
+  // Scroll tracker via DOM direto (sem setState) — evita re-render do site
+  // inteiro a cada frame de scroll, que era a causa do travamento no mobile.
   useEffect(() => {
-    window.addEventListener('scroll', debouncedScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', debouncedScroll);
+    let ticking = false;
+    const update = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+      if (stringerRef.current) stringerRef.current.style.height = `${progress}%`;
+      if (widgetsRef.current) {
+        widgetsRef.current.classList.toggle('is-visible', window.scrollY > 400);
+      }
+      ticking = false;
     };
-  }, [debouncedScroll]);
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // Intersection Observer for Scroll Reveal
   useEffect(() => {
@@ -68,10 +68,7 @@ const App: React.FC = () => {
     <>
       {/* Stringer (Vertical board centerline progress) */}
       <div className="stringer-line">
-        <div
-          className="stringer-line-progress"
-          style={{ height: `${scrollProgress}%` }}
-        />
+        <div ref={stringerRef} className="stringer-line-progress" />
       </div>
 
       {/* Main Assembly */}
@@ -93,7 +90,7 @@ const App: React.FC = () => {
       <Configurator />
 
       {/* Stacked Floating Action Widgets (Bottom Right) */}
-      <div className={`float-widgets-container${showWidgets ? ' is-visible' : ''}`}>
+      <div ref={widgetsRef} className="float-widgets-container">
         {/* Instagram Widget */}
         <a
           href="https://www.instagram.com/jp.surfboards?igsh=OHBrZHE5NDk1MXg0"
@@ -234,17 +231,14 @@ const App: React.FC = () => {
           left: 0;
           right: 0;
           z-index: 590;
-          background: rgba(5, 5, 5, 0.96);
-          backdrop-filter: blur(12px);
+          background: #050505;
           border-top: 1px solid var(--border);
           padding: 0.65rem 1rem;
         }
 
         @media (max-width: 768px) {
           .float-widgets-container {
-            bottom: 5.5rem !important;
-            right: 1.25rem !important;
-            gap: 0.6rem;
+            display: none !important;
           }
           .float-action-btn {
             width: 46px;

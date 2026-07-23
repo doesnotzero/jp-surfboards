@@ -94,7 +94,7 @@ export const Footer: React.FC = () => {
               marginBottom: '1.1rem',
             }}
           >
-            Catálogo
+            Modelos
           </h4>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
             {boards.map((board) => (

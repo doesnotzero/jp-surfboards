@@ -1,12 +1,46 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
-// Vídeo de fundo do Hero. Para trocar, basta colocar o novo arquivo em
-// /public/hero/ e atualizar o caminho abaixo (o poster é a imagem exibida
-// enquanto o vídeo carrega ou caso ele não possa rodar).
+// Fundo do Hero. Para trocar, coloque os arquivos em /public/hero/ e atualize
+// os caminhos abaixo. No DESKTOP roda o vídeo; no MOBILE mostra uma imagem
+// (mais leve/rápida — evita travar e o autoplay bloqueado do iOS).
 const HERO_VIDEO_SRC = '/hero/hero-ocean.mp4';
 const HERO_VIDEO_POSTER = '/hero/inicio.webp';
+const HERO_MOBILE_IMAGE = '/hero/inicio.webp';
 
 export const Hero: React.FC = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  // Decide já na primeira renderização (app client-side, window existe).
+  const [useVideo, setUseVideo] = useState<boolean>(
+    () => !(typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches)
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    const apply = () => setUseVideo(!mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
+  // Garante o autoplay do vídeo (desktop): força `muted` no DOM e tenta play.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.defaultMuted = true;
+    const tryPlay = () => {
+      const p = v.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    };
+    tryPlay();
+    v.addEventListener('loadeddata', tryPlay);
+    v.addEventListener('canplay', tryPlay);
+    return () => {
+      v.removeEventListener('loadeddata', tryPlay);
+      v.removeEventListener('canplay', tryPlay);
+    };
+  }, [useVideo]);
+
   return (
     <section
       id="hero"
@@ -20,18 +54,28 @@ export const Hero: React.FC = () => {
         background: 'var(--bg)',
       }}
     >
-      {/* Fullscreen Background Video */}
-      <video
-        className="hero-bg-video"
-        src={HERO_VIDEO_SRC}
-        poster={HERO_VIDEO_POSTER}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        aria-label="JP Surf Boards"
-      />
+      {/* Fundo: vídeo no desktop, imagem no mobile */}
+      {useVideo ? (
+        <video
+          ref={videoRef}
+          className="hero-bg-video"
+          src={HERO_VIDEO_SRC}
+          poster={HERO_VIDEO_POSTER}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-label="JP Surf Boards"
+        />
+      ) : (
+        <img
+          className="hero-bg-video"
+          src={HERO_MOBILE_IMAGE}
+          alt="JP Surf Boards — Florianópolis"
+          loading="eager"
+        />
+      )}
 
       {/* Dark gradient overlay for legibility */}
       <div className="hero-video-overlay" />
@@ -130,7 +174,7 @@ export const Hero: React.FC = () => {
             className="hero-ctas"
           >
             <a href="#catalog" className="btn-premium">
-              Catálogo técnico ➔
+              Ver os modelos ➔
             </a>
             <a href="#about" className="btn-premium-outline">
               A fábrica

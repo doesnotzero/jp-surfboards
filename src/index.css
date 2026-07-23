@@ -263,3 +263,10 @@ body.menu-open {
     display: none;
   }
 }
+
+/* Mobile: desliga o overlay de ruído (fixo em tela cheia — pesa no scroll) */
+@media(max-width: 768px) {
+  body::before {
+    display: none;
+  }
+}

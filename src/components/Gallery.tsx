@@ -153,16 +153,16 @@ export const Gallery: React.FC = () => {
       {openIndex !== null && (
         <div className="glb" role="dialog" aria-modal="true" aria-label="Galeria do processo" onClick={closeModal}>
           <button className="glb-close" onClick={closeModal} aria-label="Fechar">✕</button>
-          <div className="glb-stage" onClick={(e) => e.stopPropagation()}>
-            <button className="glb-nav" onClick={prev} aria-label="Foto anterior">‹</button>
-            <div className="glb-img-wrap">
+          <div className="glb-stage">
+            <button className="glb-nav" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label="Foto anterior">‹</button>
+            <div className="glb-img-wrap" onClick={(e) => e.stopPropagation()}>
               <img key={items[openIndex].imgSrc} src={items[openIndex].imgSrc} alt={items[openIndex].title} />
               <span className="glb-corner tl" />
               <span className="glb-corner tr" />
               <span className="glb-corner bl" />
               <span className="glb-corner br" />
             </div>
-            <button className="glb-nav" onClick={next} aria-label="Próxima foto">›</button>
+            <button className="glb-nav" onClick={(e) => { e.stopPropagation(); next(); }} aria-label="Próxima foto">›</button>
           </div>
           <div className="glb-caption">
             <span className="text-mono glb-sub">
@@ -270,7 +270,15 @@ export const Gallery: React.FC = () => {
         .glb-sub { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); }
         @media (max-width: 600px) {
           .glb { padding: 1rem; }
-          .glb-nav { display: none; }
+          .glb-nav { width: 38px; height: 38px; font-size: 1.2rem; }
+          .glb-stage { gap: 0.4rem; }
+          .glb-close {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 1.2rem;
+          }
         }
 
         .gallery-grid-container {
