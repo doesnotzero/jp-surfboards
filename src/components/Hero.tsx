@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 // Vídeo de fundo do Hero (mobile e desktop). Para trocar, coloque o novo
 // arquivo em /public/hero/ e atualize o caminho abaixo.
@@ -6,70 +6,51 @@ const HERO_VIDEO_SRC = '/hero/hero-ocean.mp4';
 
 export const Hero: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
 
   // Garante o autoplay do vídeo em qualquer dispositivo: força `muted` no DOM
-  // e tenta play em vários gatilhos. Alguns sistemas (ex.: iOS em Modo de
-  // Baixo Consumo) bloqueiam autoplay mesmo com vídeo mudo — nesse caso,
-  // mostramos um botão discreto para o usuário iniciar com um toque.
+  // e tenta play repetidamente. Alguns sistemas (ex.: iOS em Modo de Baixo
+  // Consumo) bloqueiam autoplay mesmo com vídeo mudo — nesses casos, o
+  // primeiro toque/clique do usuário em QUALQUER lugar da página libera o
+  // play automaticamente, sem exibir nenhum botão (destrave silencioso).
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
     v.defaultMuted = true;
 
-    let settled = false;
-    const markPlaying = () => {
-      settled = true;
-      setNeedsTapToPlay(false);
-    };
+    let unlocked = false;
     const tryPlay = () => {
+      if (unlocked) return;
       const p = v.play();
       if (p && typeof p.then === 'function') {
-        p.then(markPlaying).catch(() => {
-          if (!settled) setNeedsTapToPlay(true);
-        });
-      } else {
-        markPlaying();
+        p.then(() => { unlocked = true; }).catch(() => {});
       }
     };
 
     tryPlay();
     v.addEventListener('loadeddata', tryPlay);
     v.addEventListener('canplay', tryPlay);
-    v.addEventListener('playing', markPlaying);
+    v.addEventListener('playing', () => { unlocked = true; });
 
-    // Alguns navegadores liberam o autoplay após a primeira interação do
-    // usuário — tenta novamente nesses gatilhos.
-    const retry = () => tryPlay();
-    window.addEventListener('touchstart', retry, { passive: true, once: true });
-    window.addEventListener('scroll', retry, { passive: true, once: true });
-    document.addEventListener('visibilitychange', retry);
-
-    // Se depois de um tempo ainda não tocou, mostra o botão de play manual.
-    const timer = window.setTimeout(() => {
-      if (!settled && v.paused) setNeedsTapToPlay(true);
-    }, 1200);
+    // Qualquer gesto do usuário conta como interação válida para o navegador
+    // liberar o autoplay — tentamos o play de novo nesses eventos.
+    const events: Array<[string, AddEventListenerOptions?]> = [
+      ['touchstart', { passive: true }],
+      ['touchend', { passive: true }],
+      ['click', undefined],
+      ['scroll', { passive: true }],
+      ['keydown', undefined],
+    ];
+    events.forEach(([evt, opts]) => window.addEventListener(evt, tryPlay, opts));
+    document.addEventListener('visibilitychange', tryPlay);
 
     return () => {
       v.removeEventListener('loadeddata', tryPlay);
       v.removeEventListener('canplay', tryPlay);
-      v.removeEventListener('playing', markPlaying);
-      window.removeEventListener('touchstart', retry);
-      window.removeEventListener('scroll', retry);
-      document.removeEventListener('visibilitychange', retry);
-      window.clearTimeout(timer);
+      events.forEach(([evt, opts]) => window.removeEventListener(evt, tryPlay, opts));
+      document.removeEventListener('visibilitychange', tryPlay);
     };
   }, []);
-
-  const handleManualPlay = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = true;
-    v.play()
-      .then(() => setNeedsTapToPlay(false))
-      .catch(() => {});
-  };
 
   return (
     <section
@@ -96,18 +77,6 @@ export const Hero: React.FC = () => {
         preload="auto"
         aria-label="JP Surf Boards"
       />
-
-      {/* Botão de play manual — aparece só se o navegador bloquear o autoplay */}
-      {needsTapToPlay && (
-        <button
-          type="button"
-          className="hero-play-fallback"
-          onClick={handleManualPlay}
-          aria-label="Reproduzir vídeo de fundo"
-        >
-          ▶
-        </button>
-      )}
 
       {/* Dark gradient overlay for legibility */}
       <div className="hero-video-overlay" />
@@ -236,30 +205,7 @@ export const Hero: React.FC = () => {
             linear-gradient(180deg, rgba(5, 5, 5, 0.6) 0%, transparent 22%, transparent 62%, rgba(5, 5, 5, 0.85) 100%);
           pointer-events: none;
         }
-        .hero-play-fallback {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          z-index: 4;
-          width: 64px;
-          height: 64px;
-          border-radius: 50%;
-          border: 1px solid var(--accent);
-          background: rgba(5, 5, 5, 0.6);
-          color: var(--text);
-          font-size: 1.1rem;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          backdrop-filter: blur(4px);
-          transition: background-color 0.2s ease, transform 0.2s ease;
-        }
-        .hero-play-fallback:hover {
-          background: var(--accent);
-          transform: translate(-50%, -50%) scale(1.06);
-        }
+
 
         @media (max-width: 600px) {
           .hero-ctas {
