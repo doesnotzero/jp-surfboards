@@ -3,7 +3,6 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Catalog } from './components/Catalog';
-import { ShaperBio } from './components/ShaperBio';
 import { Process } from './components/Process';
 import { Gallery } from './components/Gallery';
 import { Testimonials } from './components/Testimonials';
@@ -14,6 +13,7 @@ import { debounce } from './utils/debounce';
 
 const App: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [showWidgets, setShowWidgets] = useState(false);
 
   // Stringer scroll progress tracker
   const debouncedScroll = useMemo(
@@ -24,6 +24,8 @@ const App: React.FC = () => {
           const progress = (window.scrollY / totalHeight) * 100;
           setScrollProgress(progress);
         }
+        // Mostra os botões flutuantes depois de sair do topo
+        setShowWidgets(window.scrollY > 400);
       }, 10),
     []
   );
@@ -79,7 +81,6 @@ const App: React.FC = () => {
         <Hero />
         <About />
         <Catalog />
-        <ShaperBio />
         <Process />
         <Gallery />
         <Testimonials />
@@ -92,7 +93,7 @@ const App: React.FC = () => {
       <Configurator />
 
       {/* Stacked Floating Action Widgets (Bottom Right) */}
-      <div className="float-widgets-container">
+      <div className={`float-widgets-container${showWidgets ? ' is-visible' : ''}`}>
         {/* Instagram Widget */}
         <a
           href="https://www.instagram.com/jp.surfboards?igsh=OHBrZHE5NDk1MXg0"
@@ -140,12 +141,21 @@ const App: React.FC = () => {
           z-index: 600;
           display: flex;
           flex-direction: column;
-          gap: 0.8rem;
+          gap: 0.85rem;
+          opacity: 0;
+          transform: translateY(16px) scale(0.9);
+          pointer-events: none;
+          transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .float-widgets-container.is-visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          pointer-events: auto;
         }
 
         .float-action-btn {
-          width: 44px;
-          height: 44px;
+          width: 52px;
+          height: 52px;
           background: rgba(5, 5, 5, 0.85);
           backdrop-filter: blur(8px);
           border: 1px solid var(--accent);
@@ -160,11 +170,34 @@ const App: React.FC = () => {
           outline: none;
           padding: 0;
         }
-        
+
+        .float-action-btn svg {
+          width: 22px !important;
+          height: 22px !important;
+        }
+
         .float-action-btn:hover {
           background: var(--accent);
-          transform: translateY(-2px);
-          box-shadow: 0 12px 30px rgba(179, 18, 23, 0.3);
+          transform: translateY(-3px);
+          box-shadow: 0 12px 32px rgba(179, 18, 23, 0.4);
+        }
+
+        /* Pulse de atenção no WhatsApp */
+        .float-wa-btn::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border: 1px solid var(--accent);
+          animation: waPulse 2.4s ease-out infinite;
+          pointer-events: none;
+        }
+        .float-wa-btn:hover::before {
+          animation: none;
+        }
+        @keyframes waPulse {
+          0% { transform: scale(1); opacity: 0.7; }
+          70% { transform: scale(1.35); opacity: 0; }
+          100% { transform: scale(1.35); opacity: 0; }
         }
 
         /* Tooltip styling */
@@ -214,8 +247,12 @@ const App: React.FC = () => {
             gap: 0.6rem;
           }
           .float-action-btn {
-            width: 38px;
-            height: 38px;
+            width: 46px;
+            height: 46px;
+          }
+          .float-action-btn svg {
+            width: 20px !important;
+            height: 20px !important;
           }
           .float-action-btn::after {
             display: none !important; /* Hide tooltips on mobile */

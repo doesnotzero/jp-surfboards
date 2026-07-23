@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface GalleryItem {
   title: string;
@@ -7,6 +7,8 @@ interface GalleryItem {
 }
 
 export const Gallery: React.FC = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   const items: GalleryItem[] = [
     {
       title: "O Shaper JP",
@@ -34,6 +36,25 @@ export const Gallery: React.FC = () => {
       imgSrc: "/gallery/ready-to-surf.webp",
     }
   ];
+
+  const closeModal = () => setOpenIndex(null);
+  const prev = () => setOpenIndex((i) => (i === null ? i : (i - 1 + items.length) % items.length));
+  const next = () => setOpenIndex((i) => (i === null ? i : (i + 1) % items.length));
+
+  useEffect(() => {
+    if (openIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenIndex(null);
+      else if (e.key === 'ArrowLeft') setOpenIndex((i) => (i === null ? i : (i - 1 + items.length) % items.length));
+      else if (e.key === 'ArrowRight') setOpenIndex((i) => (i === null ? i : (i + 1) % items.length));
+    };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [openIndex, items.length]);
 
   return (
     <section
@@ -73,7 +94,7 @@ export const Gallery: React.FC = () => {
             <span style={{ width: '20px', height: '1px', background: 'var(--accent)', display: 'block' }} />
             Shaping & Laboratory
           </div>
-          <h2 className="text-anton" style={{ fontSize: 'clamp(2rem, 4vw, 3.8rem)', textTransform: 'uppercase' }}>
+          <h2 className="text-anton" style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4.2rem)', textTransform: 'uppercase' }}>
             Galeria do Processo
           </h2>
         </div>
@@ -82,7 +103,20 @@ export const Gallery: React.FC = () => {
       {/* Grid Layout */}
       <div className="gallery-grid-container">
         {items.map((item, idx) => (
-          <div key={idx} className={`gallery-item g-card-${idx + 1}`}>
+          <div
+            key={idx}
+            className={`gallery-item g-card-${idx + 1}`}
+            role="button"
+            tabIndex={0}
+            aria-label={`Ampliar: ${item.title}`}
+            onClick={() => setOpenIndex(idx)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setOpenIndex(idx);
+              }
+            }}
+          >
             <div
               style={{
                 width: '100%',
@@ -108,12 +142,137 @@ export const Gallery: React.FC = () => {
                 }}
                 loading="lazy"
               />
+              {/* Expand hint */}
+              <span className="text-mono gallery-expand">⤢</span>
             </div>
           </div>
         ))}
       </div>
 
+      {/* Lightbox */}
+      {openIndex !== null && (
+        <div className="glb" role="dialog" aria-modal="true" aria-label="Galeria do processo" onClick={closeModal}>
+          <button className="glb-close" onClick={closeModal} aria-label="Fechar">✕</button>
+          <div className="glb-stage" onClick={(e) => e.stopPropagation()}>
+            <button className="glb-nav" onClick={prev} aria-label="Foto anterior">‹</button>
+            <div className="glb-img-wrap">
+              <img key={items[openIndex].imgSrc} src={items[openIndex].imgSrc} alt={items[openIndex].title} />
+              <span className="glb-corner tl" />
+              <span className="glb-corner tr" />
+              <span className="glb-corner bl" />
+              <span className="glb-corner br" />
+            </div>
+            <button className="glb-nav" onClick={next} aria-label="Próxima foto">›</button>
+          </div>
+          <div className="glb-caption">
+            <span className="text-mono glb-sub">
+              {String(openIndex + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
+            </span>
+          </div>
+        </div>
+      )}
+
       <style>{`
+        .gallery-item { position: relative; }
+        .gallery-expand {
+          position: absolute;
+          top: 12px;
+          right: 14px;
+          font-size: 0.9rem;
+          color: var(--text);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          pointer-events: none;
+        }
+        .gallery-item:hover .gallery-expand { opacity: 0.85; }
+
+        /* Lightbox */
+        .glb {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          background: rgba(5, 5, 5, 0.94);
+          backdrop-filter: blur(10px);
+          display: flex;
+          flex-direction: column;
+          padding: 1.5rem 2rem;
+          animation: glbFade 0.22s ease;
+        }
+        @keyframes glbFade { from { opacity: 0; } to { opacity: 1; } }
+        .glb-close {
+          align-self: flex-end;
+          background: none;
+          border: none;
+          color: var(--text);
+          font-size: 1.4rem;
+          line-height: 1;
+          cursor: pointer;
+          padding: 2px 8px;
+          transition: color 0.15s ease;
+          flex-shrink: 0;
+        }
+        .glb-close:hover { color: var(--accent); }
+        .glb-stage {
+          flex: 1;
+          min-height: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1.25rem;
+        }
+        .glb-img-wrap {
+          position: relative;
+          flex: 1;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 0;
+          padding: 0.5rem;
+        }
+        .glb-img-wrap img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+          display: block;
+          animation: glbFade 0.25s ease;
+          box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+        }
+        .glb-corner { position: absolute; width: 14px; height: 14px; pointer-events: none; }
+        .glb-corner.tl { top: 0; left: 0; border-top: 1.5px solid var(--accent); border-left: 1.5px solid var(--accent); }
+        .glb-corner.tr { top: 0; right: 0; border-top: 1.5px solid var(--accent); border-right: 1.5px solid var(--accent); }
+        .glb-corner.bl { bottom: 0; left: 0; border-bottom: 1.5px solid var(--accent); border-left: 1.5px solid var(--accent); }
+        .glb-corner.br { bottom: 0; right: 0; border-bottom: 1.5px solid var(--accent); border-right: 1.5px solid var(--accent); }
+        .glb-nav {
+          flex-shrink: 0;
+          width: 46px;
+          height: 46px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid var(--border);
+          color: var(--text);
+          font-size: 1.5rem;
+          line-height: 1;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        }
+        .glb-nav:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .glb-caption {
+          flex-shrink: 0;
+          text-align: center;
+          padding-top: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+        .glb-sub { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); }
+        @media (max-width: 600px) {
+          .glb { padding: 1rem; }
+          .glb-nav { display: none; }
+        }
+
         .gallery-grid-container {
           display: grid;
           grid-template-columns: repeat(12, 1fr);

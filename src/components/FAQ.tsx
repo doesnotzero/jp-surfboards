@@ -7,52 +7,36 @@ interface FAQItem {
 
 const faqItems: FAQItem[] = [
   {
-    question: 'Qual é o preço médio de uma prancha?',
-    answer: 'Todas as pranchas começam em R$ 2.490. Este é nosso preço de entrada para a coleção completa. Customizações adicionais (cores especiais, grafismos, materiais premium) podem incrementar o valor final.',
+    question: 'Quanto tempo demora para a prancha ficar pronta?',
+    answer: 'Normalmente de 4 a 6 semanas depois que o pedido é confirmado. Esse tempo cobre todo o processo, do shape ao acabamento. Em Florianópolis, dá para consultar prazos mais rápidos pelo WhatsApp.',
   },
   {
-    question: 'Quanto tempo demora para receber minha prancha?',
-    answer: 'O tempo padrão é de 4 a 6 semanas a partir da confirmação do pedido. Este período inclui shaping, laminação e acabamento artesanal. Para pedidos expressos em Florianópolis, consulte disponibilidade direta via WhatsApp.',
+    question: 'Dá para escolher as cores e a arte da prancha?',
+    answer: 'Sim! Cada prancha é personalizada. Você escolhe as cores e os desenhos do seu jeito. Fale com o JP para ver as opções.',
   },
   {
-    question: 'Vocês fazem cores e designs customizados?',
-    answer: 'Sim! Cada prancha pode ser customizada completamente. Trabalhamos com diversas cores de resina, laminações especiais e grafismos personalizados. Consulte JP diretamente para ver opções e preços especiais.',
+    question: 'Como faço para encomendar?',
+    answer: 'É só clicar em "Falar com a Fábrica" e enviar suas informações (nível, tipo de onda, peso e altura). O JP fala com você no WhatsApp para alinhar os detalhes, combinar o valor e agendar a produção.',
   },
   {
-    question: 'Como funciona o processo de pedido?',
-    answer: 'Use nosso Configurador para compartilhar suas informações (nível, tipo de onda, peso, altura). JP entrará em contato via WhatsApp para discussão técnica do shape, preço final e agendamento da produção.',
+    question: 'Vocês enviam para fora do Brasil?',
+    answer: 'Sim, enviamos para o mundo todo. O frete muda conforme o país. Fale com o JP para ele calcular o envio e os prazos.',
   },
   {
-    question: 'Qual prancha é melhor para iniciante?',
-    answer: 'Para iniciantes avançados, recomendamos o Funboard (Wasabi) pela versatilidade e facilidade de paddle. Para quem está começando, o Longboard (Skeleton Bird) oferece estabilidade e espaço para progressão.',
+    question: 'A prancha tem garantia?',
+    answer: 'Toda prancha sai daqui revisada e com a qualidade conferida. Damos suporte nos primeiros 30 dias. Defeitos de fabricação são cobertos; o desgaste normal do uso não entra na garantia.',
   },
   {
-    question: 'Fazem envio para fora do Brasil?',
-    answer: 'Sim! Fazemos envios internacionais. O frete varia conforme o país e região. Consulte JP para cotação específica de shipping, alfândega e prazos de entrega internacional.',
-  },
-  {
-    question: 'Qual é a garantia da prancha?',
-    answer: 'Todas as pranchas saem do nosso ateliê com qualidade verificada. Oferecemos suporte técnico integral durante os primeiros 30 dias. Danos por defeito de manufatura são cobertos. Danos por uso regular não estão inclusos.',
-  },
-  {
-    question: 'Como devo cuidar da minha prancha?',
-    answer: 'Guarde em local fresco e seco, longe de luz solar direta. Após o uso, enxague com água doce. Evite calor extremo que pode danificar a resina. Conserte pequenos dings rapidamente para evitar infiltração de água.',
+    question: 'Como cuidar da prancha?',
+    answer: 'Guarde em um lugar fresco e à sombra. Depois de surfar, lave com água doce. Evite deixar no sol forte ou no carro quente, que estraga a resina. Se aparecer algum furinho, conserte logo para não entrar água.',
   },
   {
     question: 'Posso trocar se não gostar?',
-    answer: 'Como cada prancha é artesanal e customizada, trocas não são automáticas. Qualquer questão com o produto deve ser discutida diretamente com JP nos primeiros 7 dias após receita. Trabalharemos juntos para resolver qualquer problema.',
+    answer: 'Como cada prancha é feita sob medida, não fazemos troca automática. Se tiver qualquer problema, fale com o JP em até 7 dias após receber que a gente resolve junto.',
   },
   {
-    question: 'Vocês oferecem modelos em estoque?',
-    answer: 'Não mantemos estoque fixo. Cada prancha é shapada sob demanda para garantir que você recebe exatamente o que encomendou. Isso garante máxima customização e qualidade artesanal.',
-  },
-  {
-    question: 'Qual prancha para surfar ondas grandes?',
-    answer: 'Para ondas grandes (acima de 2m), recomendamos o Step Up (Black Buffalo) para consistência, ou o Phantom Shark (Heavy Water Gun) para condições extremas. Ambas oferecem controle e segurança em highspeed.',
-  },
-  {
-    question: 'Como faço meu pedido?',
-    answer: 'Clique em "Falar com a Fábrica", preencha o formulário rápido com suas informações. JP entrará em contato no WhatsApp fornecido para detalhar seu shape ideal, confirmar preço e agendar produção.',
+    question: 'Vocês têm pranchas prontas em estoque?',
+    answer: 'Não. Cada prancha é feita sob encomenda, para você receber exatamente o que pediu. É isso que garante a personalização e a qualidade em cada detalhe.',
   },
 ];
 
@@ -69,7 +53,7 @@ export const FAQ: React.FC = () => {
         position: 'relative',
       }}
     >
-      <div className="reveal-on-scroll" style={{ maxWidth: '800px' }}>
+      <div className="reveal-on-scroll" style={{ maxWidth: '820px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ marginBottom: '3rem' }}>
           <div

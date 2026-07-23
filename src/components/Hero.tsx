@@ -1,5 +1,11 @@
 import React from 'react';
 
+// Vídeo de fundo do Hero. Para trocar, basta colocar o novo arquivo em
+// /public/hero/ e atualizar o caminho abaixo (o poster é a imagem exibida
+// enquanto o vídeo carrega ou caso ele não possa rodar).
+const HERO_VIDEO_SRC = '/hero/hero-ocean.mp4';
+const HERO_VIDEO_POSTER = '/hero/inicio.webp';
+
 export const Hero: React.FC = () => {
   return (
     <section
@@ -14,10 +20,26 @@ export const Hero: React.FC = () => {
         background: 'var(--bg)',
       }}
     >
-      {/* Background Grid */}
-      <div className="tech-grid-overlay" />
-      
-      {/* Editorial Red Bar on Right edge of Grid */}
+      {/* Fullscreen Background Video */}
+      <video
+        className="hero-bg-video"
+        src={HERO_VIDEO_SRC}
+        poster={HERO_VIDEO_POSTER}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-label="JP Surf Boards"
+      />
+
+      {/* Dark gradient overlay for legibility */}
+      <div className="hero-video-overlay" />
+
+      {/* Background Grid (subtle, above video) */}
+      <div className="tech-grid-overlay" style={{ opacity: 0.25 }} />
+
+      {/* Editorial Red Bar on Right edge */}
       <div
         style={{
           position: 'absolute',
@@ -26,101 +48,70 @@ export const Hero: React.FC = () => {
           width: '3px',
           height: '100%',
           background: 'linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 60%, transparent 100%)',
-          zIndex: 2,
+          zIndex: 3,
         }}
       />
 
-
-
-      {/* Main Content Layout */}
+      {/* Main Content Layout — centered */}
       <div
         style={{
           flex: 1,
-          display: 'grid',
-          gridTemplateColumns: '1fr 1.1fr',
+          display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          padding: '0 80px 0 52px',
+          justifyContent: 'center',
+          textAlign: 'center',
+          padding: '0 5vw',
           position: 'relative',
-          zIndex: 2,
-          gap: '2rem',
+          zIndex: 3,
         }}
         className="hero-main-container"
       >
-        {/* Left Side Info */}
-        <div style={{ paddingRight: '2vw' }} className="hero-left-side">
+        <div style={{ maxWidth: '860px', width: '100%' }} className="hero-content">
+          {/* Kicker / eyebrow */}
           <div
-            className="text-mono"
+            className="text-mono hero-kicker"
             style={{
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
               gap: '0.75rem',
-              fontSize: '0.58rem',
-              letterSpacing: '0.38em',
+              fontSize: '0.6rem',
+              letterSpacing: '0.42em',
               textTransform: 'uppercase',
               color: 'var(--accent)',
               marginBottom: '2rem',
             }}
           >
-            <span style={{ width: '28px', height: '1px', background: 'var(--accent)' }} />
-            Handcrafted Performance Surfboards
+            <span style={{ width: '32px', height: '1px', background: 'var(--accent)' }} />
+            Shapes Artesanais · Florianópolis, SC
+            <span style={{ width: '32px', height: '1px', background: 'var(--accent)' }} />
           </div>
-          
+
+          {/* Headline */}
           <h1
             className="text-anton"
             style={{
-              fontSize: 'clamp(3.5rem, 8vw, 8.5rem)',
-              lineHeight: 0.88,
+              fontSize: 'clamp(2.8rem, 7vw, 6.5rem)',
+              lineHeight: 0.92,
               letterSpacing: '0.01em',
               textTransform: 'uppercase',
               color: 'var(--text)',
+              textShadow: '0 2px 40px rgba(0, 0, 0, 0.6)',
             }}
           >
-            JP
-            <span
-              style={{
-                display: 'block',
-                lineHeight: 0.82,
-                color: 'var(--accent)',
-              }}
-            >
-              SURF
+            Sob medida
+            <span style={{ display: 'block', color: 'var(--accent)' }}>
+              para o seu surf
             </span>
-            BOARDS
           </h1>
-
-          {/* Mobile-only Hero Image (displays below title on mobile) */}
-          <div className="mobile-hero-img-box">
-            <img
-              src="/hero/inicio.webp"
-              alt="JP Surf Boards"
-              className="mobile-hero-img"
-              loading="eager"
-            />
-            <div className="mobile-hero-img-border" />
-          </div>
-
-          <div
-            style={{
-              marginTop: '2.5rem',
-              display: 'flex',
-              alignItems: 'baseline',
-              gap: '1.25rem',
-              flexWrap: 'wrap',
-            }}
-            className="hero-taglines"
-          >
-            <span style={taglineItemStyle}>Handcrafted</span>
-            <span style={taglineItemStyle}>Performance</span>
-            <span style={taglineItemStyle}>Custom Shapes</span>
-          </div>
 
           {/* Slogan */}
           <div
             style={{
               marginTop: '2rem',
-              fontSize: '0.9rem',
+              fontSize: '0.95rem',
               fontStyle: 'italic',
-              letterSpacing: '0.05em',
+              letterSpacing: '0.06em',
               color: 'var(--accent)',
             }}
             className="text-mono"
@@ -128,7 +119,16 @@ export const Hero: React.FC = () => {
             "It comes in waves"
           </div>
 
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '2.5rem', flexWrap: 'wrap' }} className="hero-ctas">
+          <div
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              marginTop: '2.75rem',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+            className="hero-ctas"
+          >
             <a href="#catalog" className="btn-premium">
               Catálogo técnico ➔
             </a>
@@ -137,240 +137,44 @@ export const Hero: React.FC = () => {
             </a>
           </div>
         </div>
-
-        {/* Right Side Image Showcase (Desktop Only) */}
-        <div
-          style={{
-            position: 'relative',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingLeft: '1.5rem',
-          }}
-          className="hero-right-side"
-        >
-          <div className="hero-image-frame-container">
-            <div className="hero-image-frame">
-              <img
-                src="/hero/inicio.webp"
-                alt="JP Surf Boards Workshop Design"
-                className="hero-desktop-img"
-                loading="eager"
-              />
-              <div className="hero-img-overlay-lines" />
-            </div>
-            
-            {/* Fine Technical Line Overlay */}
-            <div className="hero-tech-line-h" />
-            <div className="hero-tech-line-v" />
-          </div>
-        </div>
-      </div>
-
-      {/* Model Shortcuts Bottom bar */}
-      <div
-        style={{
-          padding: '1.25rem 4vw 1.25rem 52px',
-          borderTop: '1px solid var(--border)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '2rem',
-          position: 'relative',
-          zIndex: 2,
-        }}
-        className="hero-foot-bar"
-      >
-        <span
-          className="text-mono"
-          style={{
-            fontSize: '0.55rem',
-            letterSpacing: '0.35em',
-            textTransform: 'uppercase',
-            color: 'rgba(138, 138, 138, 0.4)',
-          }}
-        >
-          Modelos
-        </span>
-        <div
-          className="text-mono hero-foot-links"
-          style={{
-            display: 'flex',
-            gap: '2.2rem',
-            marginLeft: 'auto',
-          }}
-        >
-          <a href="#performance" style={footLinkStyle}>
-            Performance
-          </a>
-          <a href="#fish" style={footLinkStyle}>
-            Fish
-          </a>
-          <a href="#funboard" style={footLinkStyle}>
-            Funboard
-          </a>
-          <a href="#longboard" style={footLinkStyle}>
-            Longboard
-          </a>
-          <a href="#step-up" style={footLinkStyle}>
-            Step Up
-          </a>
-          <a href="#custom" style={footLinkStyle}>
-            Heavy Water
-          </a>
-          <a href="#bus-driver" style={footLinkStyle}>
-            Bus Driver
-          </a>
-        </div>
       </div>
 
       <style>{`
-        .hero-image-frame-container {
-          position: relative;
-          width: 100%;
-          max-width: 1000px;
-          aspect-ratio: 16 / 9;
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .hero-image-frame-container:hover {
-          transform: rotate(-1.5deg) scale(1.015);
-        }
-        .hero-image-frame {
-          width: 100%;
-          height: 100%;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          position: relative;
-          overflow: hidden;
-          background: var(--surface-2);
-        }
-        .hero-desktop-img {
+        .hero-bg-video {
+          position: absolute;
+          inset: 0;
           width: 100%;
           height: 100%;
           object-fit: cover;
           object-position: center;
+          z-index: 0;
           display: block;
-          opacity: 0.85;
-          transition: opacity 0.3s ease;
         }
-        .hero-image-frame-container:hover .hero-desktop-img {
-          opacity: 0.95;
-        }
-        .hero-img-overlay-lines {
+        .hero-video-overlay {
           position: absolute;
           inset: 0;
+          z-index: 1;
+          background:
+            radial-gradient(ellipse at center, rgba(5, 5, 5, 0.3) 0%, rgba(5, 5, 5, 0.72) 100%),
+            linear-gradient(180deg, rgba(5, 5, 5, 0.6) 0%, transparent 22%, transparent 62%, rgba(5, 5, 5, 0.85) 100%);
           pointer-events: none;
-          background-image: repeating-linear-gradient(
-            -45deg,
-            transparent,
-            transparent 20px,
-            rgba(179, 18, 23, 0.02) 20px,
-            rgba(179, 18, 23, 0.02) 21px
-          );
-        }
-        .hero-tech-line-h {
-          display: none;
-        }
-        .hero-tech-line-v {
-          display: none;
-        }
-        
-        /* Mobile Specific Style */
-        .mobile-hero-img-box {
-          display: none;
-          position: relative;
-          width: 100%;
-          aspect-ratio: 16/10;
-          margin: 1.5rem 0;
-          overflow: hidden;
-        }
-        .mobile-hero-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
-          display: block;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          opacity: 0.85;
-        }
-        .mobile-hero-img-border {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          border: 1px solid var(--accent);
-          opacity: 0.2;
-          margin: 4px;
         }
 
-        @media (max-width: 1024px) {
-          .hero-main-container {
-            grid-template-columns: 1fr !important;
-            padding: 3rem 5vw 3rem 52px !important;
-            min-height: calc(100vh - 60px) !important;
-          }
-          .hero-right-side {
-            display: none !important;
-          }
-          .hero-foot-links {
-            display: none !important;
-          }
-          .mobile-hero-img-box {
-            display: block !important;
-          }
-        }
-        @media (max-width: 900px) {
-          .hero-main-container {
-            padding-left: 36px !important;
-          }
-          .hero-foot-bar {
-            padding-left: 36px !important;
-          }
-        }
         @media (max-width: 600px) {
-          .hero-main-container {
-            padding-left: 5vw !important;
-            padding-right: 5vw !important;
-          }
-          .hero-foot-bar {
-            padding-left: 5vw !important;
-          }
-          .hero-taglines {
-            margin-top: 1.5rem !important;
-          }
           .hero-ctas {
-            margin-top: 1.5rem !important;
+            margin-top: 1.75rem !important;
             width: 100%;
           }
           .hero-ctas a {
             width: 100%;
             justify-content: center;
           }
-        }
-        .hero-foot-links a:hover {
-          color: var(--accent) !important;
+          .hero-kicker {
+            font-size: 0.5rem !important;
+            letter-spacing: 0.3em !important;
+          }
         }
       `}</style>
     </section>
   );
-};
-
-const taglineItemStyle: React.CSSProperties = {
-  fontFamily: "'Space Mono', monospace",
-  fontSize: '0.62rem',
-  letterSpacing: '0.25em',
-  textTransform: 'uppercase',
-  color: 'var(--muted)',
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '0.6rem',
-};
-
-
-
-const footLinkStyle: React.CSSProperties = {
-  fontSize: '0.52rem',
-  letterSpacing: '0.18em',
-  textTransform: 'uppercase',
-  color: 'var(--muted)',
-  textDecoration: 'none',
-  transition: 'color 0.15s ease',
 };

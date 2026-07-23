@@ -58,7 +58,7 @@ export const Testimonials: React.FC = () => {
         position: 'relative',
       }}
     >
-      <div className="reveal-on-scroll" style={{ maxWidth: '1200px' }}>
+      <div className="reveal-on-scroll" style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ marginBottom: '4rem' }}>
           <div

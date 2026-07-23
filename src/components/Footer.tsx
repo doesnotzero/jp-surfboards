@@ -1,4 +1,5 @@
 import React from 'react';
+import { boards } from '../data/boards';
 
 export const Footer: React.FC = () => {
   return (
@@ -45,7 +46,7 @@ export const Footer: React.FC = () => {
               marginBottom: '1.25rem',
             }}
           >
-            Pranchas de surf artesanais de alta performance shapadas à mão em Florianópolis, SC. Foco total em hidrodinâmica e controle.
+            Pranchas de surf de alta performance, shapadas sob medida em Florianópolis, SC. Foco total em performance, controle e identidade.
           </p>
           <p
             className="text-mono"
@@ -96,41 +97,13 @@ export const Footer: React.FC = () => {
             Catálogo
           </h4>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
-            <li>
-              <a href="#performance" style={footerLinkStyle}>
-                Performance
-              </a>
-            </li>
-            <li>
-              <a href="#fish" style={footerLinkStyle}>
-                Fish
-              </a>
-            </li>
-            <li>
-              <a href="#funboard" style={footerLinkStyle}>
-                Funboard
-              </a>
-            </li>
-            <li>
-              <a href="#longboard" style={footerLinkStyle}>
-                Longboard
-              </a>
-            </li>
-            <li>
-              <a href="#step-up" style={footerLinkStyle}>
-                Step Up
-              </a>
-            </li>
-            <li>
-              <a href="#custom" style={footerLinkStyle}>
-                Heavy Water
-              </a>
-            </li>
-            <li>
-              <a href="#bus-driver" style={footerLinkStyle}>
-                Bus Driver
-              </a>
-            </li>
+            {boards.map((board) => (
+              <li key={board.id}>
+                <a href={`#${board.id}`} style={footerLinkStyle}>
+                  {board.name}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -222,14 +195,35 @@ export const Footer: React.FC = () => {
         }}
       >
         <span className="text-mono" style={copyrightStyle}>
-          © 2026 JP SURF BOARDS — Todos os direitos reservados.
+          © {new Date().getFullYear()} JP Surf Boards — Todos os direitos reservados.
         </span>
         <span className="text-mono" style={copyrightStyle}>
-          Handcrafted in Florianópolis — SC
+          Shaped in Florianópolis — SC
+        </span>
+        <span className="text-mono" style={copyrightStyle}>
+          Desenvolvido por{' '}
+          <a
+            href="https://www.instagram.com/doesnotzero.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-credit-link"
+          >
+            doesnotzero.dev
+          </a>
         </span>
       </div>
 
       <style>{`
+        .footer-credit-link {
+          color: var(--muted);
+          text-decoration: none;
+          border-bottom: 1px solid transparent;
+          transition: color 0.15s ease, border-color 0.15s ease;
+        }
+        .footer-credit-link:hover {
+          color: var(--accent);
+          border-color: var(--accent);
+        }
         @media (max-width: 900px) {
           footer {
             padding-left: 36px !important;

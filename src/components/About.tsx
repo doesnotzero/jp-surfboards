@@ -70,7 +70,7 @@ export const About: React.FC = () => {
               lineHeight: 1.85,
             }}
           >
-            Dentro da oficina, cada prancha nasce do contato entre a mão, o foam, a resina e o mar. A JP Surf Boards desenvolve shapes artesanais em Florianópolis para surfistas que procuram performance, controle e identidade.
+            A ligação de Johnny com o mar vem desde criança, encantado com as primeiras paredes corridas e as primeiras batidas — logo todos à sua volta sabiam que aquela relação não pararia por ali. Aos 8 anos teve o primeiro contato com uma sala de shape, e desde então o interesse nunca mais parou de crescer.
           </p>
           
           <p
@@ -82,23 +82,44 @@ export const About: React.FC = () => {
               lineHeight: 1.85,
             }}
           >
-            Cada prancha é trabalhada individualmente — do blank à laminação final. Não fazemos pranchas em série. Fazemos a sua prancha, sob medida para as suas ondas e o seu surf.
+            Seu tio, André Diehl — que hoje brilha no céu —, já fazia pranchas naquela época, e foi por esse olhar familiar que o menino descobriu um mundo inteiro. Ainda jovem, mudou-se para Florianópolis atrás de um sonho: shapar para a galera local e para grandes surfistas.
           </p>
-          
-          {/* Tech Badges */}
-          <div
+
+          <p
             style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '0.5rem',
-              margin: '2rem 0 2.25rem',
+              marginTop: '0.75rem',
+              maxWidth: '450px',
+              fontSize: '0.88rem',
+              color: 'var(--muted)',
+              lineHeight: 1.85,
             }}
           >
-            <span className="text-mono tech-badge active">Shape manual</span>
-            <span className="text-mono tech-badge">Florianópolis, SC</span>
-            <span className="text-mono tech-badge active">Blank virgem</span>
-            <span className="text-mono tech-badge">Laminação artesanal</span>
-            <span className="text-mono tech-badge active">Sob medida</span>
+            Desde então acorda e dorme focado nos estudos e testes para aprimorar cada vez mais o seu trabalho — hoje reconhecido pela qualidade e pelo comprometimento em fazer boas pranchas e bons consertos. <span style={{ color: 'var(--accent)', fontStyle: 'italic' }}>"Surf é minha vida"</span>, completa Johnny.
+          </p>
+          
+          {/* Slogan em destaque */}
+          <div
+            style={{
+              margin: '2.5rem 0 2.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.25rem',
+            }}
+          >
+            <span style={{ width: '40px', height: '1px', background: 'var(--accent)', display: 'block', flexShrink: 0 }} />
+            <span
+              className="text-anton"
+              style={{
+                fontSize: 'clamp(1.5rem, 2.5vw, 2.25rem)',
+                fontStyle: 'italic',
+                letterSpacing: '0.02em',
+                textTransform: 'uppercase',
+                color: 'var(--accent)',
+                lineHeight: 1,
+              }}
+            >
+              "It comes in waves"
+            </span>
           </div>
 
           <a
@@ -179,9 +200,10 @@ export const About: React.FC = () => {
           color: var(--accent);
         }
         .about-photo-wrapper {
-          width: 95%;
-          max-width: 600px;
-          aspect-ratio: 16/9;
+          width: 100%;
+          max-width: 620px;
+          aspect-ratio: 4/5;
+          max-height: 78vh;
           background: var(--surface-2);
           border: 1px solid rgba(255, 255, 255, 0.08);
           position: relative;

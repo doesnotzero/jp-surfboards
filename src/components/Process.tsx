@@ -8,29 +8,29 @@ interface ProcessStep {
 
 const steps: ProcessStep[] = [
   {
-    label: "BLANK",
-    title: "Seleção do Bloco",
-    description: "Escolha do bloco virgem (PU ou EPS) com densidade e rocker ideais para o seu peso e tipo de onda."
+    label: "BLOCO",
+    title: "Bloco Premium",
+    description: "Tudo começa com matéria-prima de primeira: blocos de alta qualidade (PU ou EPS), escolhidos pela densidade e pelo rocker ideais para o seu peso e o seu tipo de onda. Base firme, leve e durável."
   },
   {
     label: "SHAPE",
-    title: "Shaping Artesanal",
-    description: "Cada detalhe esculpido à mão pelo shaper: o outline, concaves, caimento de bordas e distribuição de flutuação."
+    title: "Shaping de Precisão",
+    description: "Cada modelo é desenhado com precisão milimétrica: outline, concaves, caimento de bordas e distribuição de flutuação calculados em cada detalhe, unindo tecnologia e anos de experiência do shaper."
   },
   {
     label: "LAMINAÇÃO",
-    title: "Glassing Técnico",
-    description: "Laminação em fibra de vidro e resina de alta qualidade. Camadas calculadas para peso, flexibilidade e resistência."
+    title: "Tecido Importado",
+    description: "Laminação com tecido de fibra importado e resina de alta qualidade — o que há de melhor no mercado. Camadas calculadas para o equilíbrio perfeito entre leveza, flexibilidade e resistência."
   },
   {
     label: "ACABAMENTO",
-    title: "Lixamento e Setup",
-    description: "Lixamento de precisão, instalação dos copos de quilha (FCS II ou Futures), polimento e arte personalizada."
+    title: "Acabamento de Precisão",
+    description: "Lixamento fino, instalação dos copos de quilha (FCS II ou Futures), polimento e arte personalizada. Um acabamento impecável do bico à rabeta."
   },
   {
     label: "MAR",
     title: "Pronta para o Mar",
-    description: "Sua prancha finalizada, embalada com proteção e pronta para fazer o que foi shapada para fazer: entrar no mar."
+    description: "Sua prancha finalizada, revisada e embalada com proteção. Pronta para fazer o que foi feita para fazer: entrar no mar."
   }
 ];
 
@@ -74,7 +74,7 @@ export const Process: React.FC = () => {
             color: 'var(--text)',
           }}
         >
-          DO BLANK<br />
+          DO BLOCO<br />
           <span style={{ color: 'var(--accent)' }}>AO MAR.</span>
         </h2>
         <div
@@ -89,7 +89,7 @@ export const Process: React.FC = () => {
         >
           JP Surf Boards — Florianópolis, SC
           <br />
-          27°14'S / 48°33'W
+          27°38'08"S / 48°28'19"W
         </div>
       </div>
 
@@ -177,6 +177,65 @@ export const Process: React.FC = () => {
         ))}
       </div>
 
+      {/* Location / Google Map */}
+      <div style={{ position: 'relative', zIndex: 2, marginBottom: '3.5rem' }}>
+        <div
+          className="text-mono"
+          style={{
+            fontSize: '0.55rem',
+            letterSpacing: '0.28em',
+            textTransform: 'uppercase',
+            color: 'var(--accent)',
+            marginBottom: '1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+          }}
+        >
+          <span style={{ width: '20px', height: '1px', background: 'var(--accent)', display: 'block' }} />
+          Onde a mágica acontece
+        </div>
+
+        <div
+          className="process-map-frame"
+          style={{
+            position: 'relative',
+            border: '1px solid var(--border)',
+            overflow: 'hidden',
+            background: 'var(--surface)',
+          }}
+        >
+          <iframe
+            title="Localização JP Surf Boards — Florianópolis, SC"
+            src="https://www.google.com/maps?q=-27.6355404,-48.4718412&z=16&hl=pt-BR&output=embed"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            style={{
+              border: 0,
+              width: '100%',
+              height: '100%',
+              display: 'block',
+              filter: 'grayscale(0.25) contrast(1.05)',
+            }}
+          />
+          {/* Technical corner marks */}
+          <div style={{ position: 'absolute', top: '10px', left: '10px', width: '10px', height: '10px', borderTop: '1.5px solid var(--accent)', borderLeft: '1.5px solid var(--accent)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: '10px', right: '10px', width: '10px', height: '10px', borderTop: '1.5px solid var(--accent)', borderRight: '1.5px solid var(--accent)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '10px', height: '10px', borderBottom: '1.5px solid var(--accent)', borderLeft: '1.5px solid var(--accent)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '10px', height: '10px', borderBottom: '1.5px solid var(--accent)', borderRight: '1.5px solid var(--accent)', pointerEvents: 'none' }} />
+        </div>
+
+        <a
+          href="https://maps.app.goo.gl/fua5vJzU6ZHoHSvk7?g_st=ic"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-premium-outline"
+          style={{ marginTop: '1.5rem', display: 'inline-flex' }}
+        >
+          Abrir no Google Maps ➔
+        </a>
+      </div>
+
       {/* Process Footer CTA */}
       <div
         style={{
@@ -214,6 +273,19 @@ export const Process: React.FC = () => {
       </div>
 
       <style>{`
+        .process-map-frame {
+          height: 420px;
+        }
+        @media (max-width: 900px) {
+          .process-map-frame {
+            height: 320px;
+          }
+        }
+        @media (max-width: 600px) {
+          .process-map-frame {
+            height: 260px;
+          }
+        }
         .process-step-card:hover {
           background-color: var(--surface-2) !important;
         }
