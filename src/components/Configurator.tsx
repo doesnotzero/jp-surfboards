@@ -345,7 +345,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                     className={`config-board-card ${formData.modelId === b.id ? 'selected' : ''}`}
                   >
                     <div className="config-board-img-box">
-                      <img src={b.thumbImage} alt={b.name} />
+                      <img src={b.thumbImage} alt={`Prancha de surf ${b.name} — JP Surf Boards`} />
                     </div>
                     <div className="config-board-meta">
                       <span className="text-mono board-cat">{b.category}</span>
@@ -393,7 +393,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                       <h4 className="text-mono section-header">MODELO PREVISTO</h4>
                       <div className="summary-board-block">
                         <div className="summary-board-img">
-                          <img src={selectedBoard.thumbImage} alt={selectedBoard.name} />
+                          <img src={selectedBoard.thumbImage} alt={`Prancha de surf ${selectedBoard.name} — JP Surf Boards`} />
                         </div>
                         <div className="summary-board-info">
                           <span className="text-mono text-accent">{selectedBoard.category}</span>

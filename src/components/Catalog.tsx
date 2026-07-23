@@ -154,7 +154,7 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
           <img
             key={activeImage}
             src={activeImage}
-            alt={`${board.category} — ${board.name}`}
+            alt={`Prancha de surf ${board.name} (${board.category}) — JP Surf Boards, Florianópolis`}
             loading="lazy"
             style={{
               maxWidth: '100%',

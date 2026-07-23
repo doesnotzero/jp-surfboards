@@ -134,6 +134,7 @@ export const Hero: React.FC = () => {
           {/* Headline */}
           <h1
             className="text-anton"
+            aria-label="JP Surf Boards — Pranchas de Surf Sob Medida em Florianópolis, SC"
             style={{
               fontSize: 'clamp(2.8rem, 7vw, 6.5rem)',
               lineHeight: 0.92,
