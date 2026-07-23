@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface ProcessStep {
   label: string;
@@ -35,6 +35,12 @@ const steps: ProcessStep[] = [
 ];
 
 export const Process: React.FC = () => {
+  // O iframe do Google Maps é arrastável: se o dedo passar por cima dele
+  // durante o scroll no mobile, ele "rouba" o gesto e trava a rolagem da
+  // página. Por isso o mapa fica bloqueado para toque até o usuário tocar
+  // uma vez de propósito (padrão comum em sites com mapas incorporados).
+  const [mapUnlocked, setMapUnlocked] = useState(false);
+
   return (
     <section
       id="order"
@@ -216,8 +222,21 @@ export const Process: React.FC = () => {
               height: '100%',
               display: 'block',
               filter: 'grayscale(0.25) contrast(1.05)',
+              pointerEvents: mapUnlocked ? 'auto' : 'none',
             }}
           />
+          {/* Trava o toque no mapa até o usuário tocar de propósito, para
+              não travar o scroll da página no mobile */}
+          {!mapUnlocked && (
+            <button
+              type="button"
+              className="process-map-unlock"
+              onClick={() => setMapUnlocked(true)}
+              aria-label="Tocar para interagir com o mapa"
+            >
+              <span className="text-mono">Toque para interagir com o mapa</span>
+            </button>
+          )}
           {/* Technical corner marks */}
           <div style={{ position: 'absolute', top: '10px', left: '10px', width: '10px', height: '10px', borderTop: '1.5px solid var(--accent)', borderLeft: '1.5px solid var(--accent)', pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', top: '10px', right: '10px', width: '10px', height: '10px', borderTop: '1.5px solid var(--accent)', borderRight: '1.5px solid var(--accent)', pointerEvents: 'none' }} />
@@ -275,6 +294,27 @@ export const Process: React.FC = () => {
       <style>{`
         .process-map-frame {
           height: 420px;
+        }
+        .process-map-unlock {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          background: rgba(5, 5, 5, 0.05);
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          padding-bottom: 1.25rem;
+        }
+        .process-map-unlock span {
+          font-size: 0.55rem;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--text);
+          background: rgba(5, 5, 5, 0.75);
+          padding: 0.5rem 1rem;
+          border: 1px solid var(--accent);
         }
         @media (max-width: 900px) {
           .process-map-frame {

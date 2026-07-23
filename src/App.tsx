@@ -13,6 +13,22 @@ import { Configurator } from './components/Configurator';
 const App: React.FC = () => {
   const stringerRef = useRef<HTMLDivElement>(null);
   const widgetsRef = useRef<HTMLDivElement>(null);
+  const stickyCtaRef = useRef<HTMLDivElement>(null);
+
+  // Esconde a barra fixa "Falar com a fábrica" quando o rodapé (que já tem
+  // os links de contato) entra na tela — evita ficar sobreposta e redundante.
+  useEffect(() => {
+    const footerEl = document.getElementById('site-footer');
+    if (!footerEl || !stickyCtaRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        stickyCtaRef.current?.classList.toggle('is-hidden', entry.isIntersecting);
+      },
+      { rootMargin: '0px 0px -10% 0px' }
+    );
+    observer.observe(footerEl);
+    return () => observer.disconnect();
+  }, []);
 
   // Scroll tracker via DOM direto (sem setState) — evita re-render do site
   // inteiro a cada frame de scroll, que era a causa do travamento no mobile.
@@ -120,7 +136,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Mobile Sticky CTA bar */}
-      <div className="mobile-sticky-cta">
+      <div ref={stickyCtaRef} className="mobile-sticky-cta">
         <button
           onClick={() => window.dispatchEvent(new CustomEvent('open-configurator'))}
           className="btn-premium"
@@ -234,6 +250,11 @@ const App: React.FC = () => {
           background: #050505;
           border-top: 1px solid var(--border);
           padding: 0.65rem 1rem;
+          transform: translateY(0);
+          transition: transform 0.25s ease;
+        }
+        .mobile-sticky-cta.is-hidden {
+          transform: translateY(100%);
         }
 
         @media (max-width: 768px) {

@@ -4,6 +4,7 @@ import { boards } from '../data/boards';
 export const Footer: React.FC = () => {
   return (
     <footer
+      id="site-footer"
       style={{
         background: 'var(--surface)',
         borderTop: '1px solid var(--border)',
