@@ -60,6 +60,35 @@ export const Configurator: React.FC = () => {
     return () => window.removeEventListener('open-configurator', handleOpen);
   }, []);
 
+  // Trava o scroll da página por trás enquanto o modal está aberto (evita o
+  // "double scroll" e o bounce do iOS movendo o site inteiro no mobile).
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
+  // ESC fecha o modal (paridade com os outros modais do site)
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen]);
+
+  // Rola o conteúdo do passo para o topo sempre que a etapa muda — sem isso,
+  // no mobile o usuário pode "herdar" a posição de scroll do passo anterior
+  // e achar que o próximo passo está vazio/quebrado.
+  useEffect(() => {
+    const content = document.querySelector('.configurator-content');
+    if (content) content.scrollTop = 0;
+  }, [step]);
+
 
   const stepsList = [
     { num: 1, name: "Identificação" },
@@ -154,10 +183,19 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
   if (!isOpen) return null;
 
   return (
-    <div className="configurator-overlay">
-      <div className="configurator-modal">
+    <div className="configurator-overlay" onClick={() => setIsOpen(false)}>
+      <div className="configurator-modal" onClick={(e) => e.stopPropagation()}>
+        {/* Drag handle — indica que é um bottom sheet arrastável (mobile) */}
+        <div className="configurator-drag-handle" aria-hidden="true" />
+
         {/* Close Button */}
-        <button className="configurator-close-btn" onClick={() => setIsOpen(false)}>×</button>
+        <button
+          className="configurator-close-btn"
+          onClick={() => setIsOpen(false)}
+          aria-label="Fechar"
+        >
+          ×
+        </button>
 
         {/* Progress bar */}
         {step <= 6 && (
@@ -497,6 +535,16 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
         }
         .configurator-close-btn:hover {
           color: var(--accent);
+        }
+
+        .configurator-drag-handle {
+          display: none;
+          width: 40px;
+          height: 4px;
+          border-radius: 4px;
+          background: var(--border);
+          margin: 0.7rem auto 0;
+          flex-shrink: 0;
         }
 
         .configurator-progress-container {
@@ -840,17 +888,31 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           .configurator-overlay {
             align-items: flex-end;
             padding: 0;
-            padding-top: 0.5rem;
           }
           .configurator-modal {
-            height: 75vh;
-            max-height: 75vh;
+            height: 88vh;
+            max-height: 88vh;
             width: 100%;
             border-radius: 16px 16px 0 0;
             max-width: 100%;
           }
+          .configurator-drag-handle {
+            display: block;
+          }
+          .configurator-close-btn {
+            top: 0.9rem;
+            right: 0.9rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            font-size: 1.4rem;
+          }
           .configurator-progress-container {
-            padding: 0.75rem 1.25rem 0.5rem;
+            padding: 0.5rem 1.25rem 0.5rem;
           }
           .step-label-item {
             font-size: 0.35rem;
@@ -861,6 +923,16 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           }
           .configurator-actions {
             padding: 0.75rem 1.25rem;
+            padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+          }
+          .configurator-actions button {
+            min-height: 48px;
+          }
+          /* Inputs precisam de >=16px no iOS, senão o Safari força zoom
+             automático ao focar o campo (quebra a experiência do formulário) */
+          .config-input {
+            font-size: 16px !important;
+            min-height: 48px;
           }
           .config-grid-options {
             grid-template-columns: 1fr;

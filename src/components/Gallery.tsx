@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSwipe } from '../utils/useSwipe';
 
 interface GalleryItem {
   title: string;
@@ -40,6 +41,7 @@ export const Gallery: React.FC = () => {
   const closeModal = () => setOpenIndex(null);
   const prev = () => setOpenIndex((i) => (i === null ? i : (i - 1 + items.length) % items.length));
   const next = () => setOpenIndex((i) => (i === null ? i : (i + 1) % items.length));
+  const swipeHandlers = useSwipe(next, prev);
 
   useEffect(() => {
     if (openIndex === null) return;
@@ -153,7 +155,7 @@ export const Gallery: React.FC = () => {
       {openIndex !== null && (
         <div className="glb" role="dialog" aria-modal="true" aria-label="Galeria do processo" onClick={closeModal}>
           <button className="glb-close" onClick={closeModal} aria-label="Fechar">✕</button>
-          <div className="glb-stage">
+          <div className="glb-stage" {...swipeHandlers}>
             <button className="glb-nav" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label="Foto anterior">‹</button>
             <div className="glb-img-wrap" onClick={(e) => e.stopPropagation()}>
               <img key={items[openIndex].imgSrc} src={items[openIndex].imgSrc} alt={items[openIndex].title} />
@@ -164,6 +166,20 @@ export const Gallery: React.FC = () => {
             </div>
             <button className="glb-nav" onClick={(e) => { e.stopPropagation(); next(); }} aria-label="Próxima foto">›</button>
           </div>
+
+          {/* Dots de posição — visíveis só no mobile (o gesto ali é arrastar) */}
+          <div className="glb-dots" onClick={(e) => e.stopPropagation()}>
+            {items.map((item, i) => (
+              <button
+                key={item.imgSrc}
+                className={`glb-dot${i === openIndex ? ' is-active' : ''}`}
+                onClick={() => setOpenIndex(i)}
+                aria-label={`Ir para a foto ${i + 1}`}
+                aria-pressed={i === openIndex}
+              />
+            ))}
+          </div>
+
           <div className="glb-caption">
             <span className="text-mono glb-sub">
               {String(openIndex + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
@@ -268,13 +284,41 @@ export const Gallery: React.FC = () => {
           gap: 0.25rem;
         }
         .glb-sub { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); }
+        .glb-dots {
+          display: none;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+          padding-top: 0.85rem;
+          flex-shrink: 0;
+        }
+        .glb-dot {
+          width: 7px;
+          height: 7px;
+          padding: 0;
+          border-radius: 50%;
+          border: none;
+          background: var(--border);
+          cursor: pointer;
+          transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .glb-dot.is-active {
+          background: var(--accent);
+          transform: scale(1.3);
+        }
         @media (max-width: 600px) {
-          .glb { padding: 1rem; }
-          .glb-nav { width: 38px; height: 38px; font-size: 1.2rem; }
-          .glb-stage { gap: 0.4rem; }
+          .glb {
+            padding: 0.85rem 0.5rem;
+            padding-bottom: max(0.85rem, env(safe-area-inset-bottom));
+          }
+          /* No mobile o gesto é arrastar (swipe): esconde as setas e mostra
+             os dots de posição no lugar. */
+          .glb-nav { display: none; }
+          .glb-dots { display: flex; }
+          .glb-stage { gap: 0; touch-action: pan-y; }
           .glb-close {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border: 1px solid var(--accent);
             color: var(--accent);
             font-size: 1.2rem;

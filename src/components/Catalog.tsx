@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { boards, type Board } from '../data/boards';
+import { useSwipe } from '../utils/useSwipe';
 
 /**
  * Card branco do produto com álbum de fotos.
@@ -26,6 +27,7 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
   };
   const prevPhoto = () => setPhotoIndex((i) => (i - 1 + photos.length) % photos.length);
   const nextPhoto = () => setPhotoIndex((i) => (i + 1) % photos.length);
+  const swipeHandlers = useSwipe(nextPhoto, prevPhoto);
 
   // Teclado (ESC / setas) + trava de scroll do body enquanto aberto
   useEffect(() => {
@@ -249,8 +251,8 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
           </button>
         </div>
 
-        {/* Stage (tocar na área escura fecha) */}
-        <div className="lb-stage">
+        {/* Stage (tocar na área escura fecha; arrastar troca de foto no mobile) */}
+        <div className="lb-stage" {...swipeHandlers}>
           {photos.length > 1 && (
             <button
               className="lb-nav lb-prev"
@@ -283,7 +285,22 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
           )}
         </div>
 
-        {/* Thumbnail rail */}
+        {/* Dots de posição (mobile) */}
+        {photos.length > 1 && (
+          <div className="lb-dots" onClick={(e) => e.stopPropagation()}>
+            {photos.map((img, i) => (
+              <button
+                key={img}
+                className={`lb-dot${i === photoIndex ? ' is-active' : ''}`}
+                onClick={() => setPhotoIndex(i)}
+                aria-label={`Ir para a foto ${i + 1}`}
+                aria-pressed={i === photoIndex}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Thumbnail rail (desktop) */}
         {photos.length > 1 && (
           <div className="lb-thumbs" onClick={(e) => e.stopPropagation()}>
             {photos.map((img, i) => (
@@ -854,20 +871,56 @@ export const Catalog: React.FC = () => {
           margin-top: 1.1rem;
           flex-shrink: 0;
         }
+        /* Dots de posição — visíveis só no mobile (substituem a tira de miniaturas) */
+        .lb-dots {
+          display: none;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+          padding-top: 0.85rem;
+          flex-shrink: 0;
+        }
+        .lb-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(255, 255, 255, 0.25);
+          padding: 0;
+          cursor: pointer;
+          transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .lb-dot.is-active {
+          background: var(--accent);
+          transform: scale(1.3);
+        }
         @media (max-width: 600px) {
-          .lb { padding: 1rem; }
+          .lb {
+            padding: 0.85rem 0.5rem;
+            padding-bottom: max(0.85rem, env(safe-area-inset-bottom));
+          }
           .lb-name { font-size: 0.9rem; }
           .lb-cat { font-size: 0.5rem; }
-          .lb-thumb { width: 44px; height: 44px; }
-          .lb-nav { width: 38px; height: 38px; font-size: 1.2rem; }
-          .lb-stage { gap: 0.4rem; }
+          /* No mobile o gesto é arrastar (swipe): esconde setas e miniaturas,
+             mostra os dots de posição no lugar. */
+          .lb-nav { display: none; }
+          .lb-thumbs { display: none; }
+          .lb-dots { display: flex; }
+          .lb-stage { gap: 0; touch-action: pan-y; }
           .lb-counter { display: none; }
+          .lb-topbar { padding-bottom: 0.85rem; }
           .lb-close {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border: 1px solid var(--accent);
             color: var(--accent);
             font-size: 1.2rem;
+            flex-shrink: 0;
+          }
+          .lb-cta {
+            width: 100%;
+            justify-content: center;
+            margin-top: 0.9rem;
           }
         }
         .catalog-expand-hint {
