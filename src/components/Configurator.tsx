@@ -231,11 +231,8 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                 <div className="config-input-wrapper">
                   <input
                     type="text"
-                    name="name"
-                    autoComplete="name"
                     required
-                    placeholder="Seu nome completo…"
-                    aria-label="Seu nome completo"
+                    placeholder="Seu nome completo"
                     value={formData.name}
                     onChange={(e) => selectOption('name', e.target.value)}
                     className={`config-input text-mono ${errors.name ? 'input-error' : ''}`}
@@ -246,12 +243,8 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                 <div className="config-input-wrapper">
                   <input
                     type="tel"
-                    name="phone"
-                    autoComplete="tel"
-                    inputMode="tel"
                     required
-                    placeholder="WhatsApp com DDD…"
-                    aria-label="WhatsApp com DDD"
+                    placeholder="WhatsApp (com DDD)"
                     value={formData.phone}
                     onChange={(e) => selectOption('phone', e.target.value)}
                     className={`config-input text-mono ${errors.phone ? 'input-error' : ''}`}
@@ -262,11 +255,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                 <div className="config-input-wrapper">
                   <input
                     type="email"
-                    name="email"
-                    autoComplete="email"
-                    inputMode="email"
-                    placeholder="Seu e-mail opcional…"
-                    aria-label="Seu e-mail opcional"
+                    placeholder="Seu e-mail (opcional)"
                     value={formData.email}
                     onChange={(e) => selectOption('email', e.target.value)}
                     className={`config-input text-mono ${errors.email ? 'input-error' : ''}`}
@@ -279,10 +268,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                   <div className="config-input-wrapper">
                     <input
                       type="number"
-                      name="weight"
-                      inputMode="numeric"
-                      placeholder="Peso em kg…"
-                      aria-label="Peso em kg"
+                      placeholder="Peso (kg)"
                       value={formData.weight}
                       onChange={(e) => selectOption('weight', e.target.value)}
                       className="config-input text-mono"
@@ -291,10 +277,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                   <div className="config-input-wrapper">
                     <input
                       type="number"
-                      name="height"
-                      inputMode="numeric"
-                      placeholder="Altura em cm…"
-                      aria-label="Altura em cm"
+                      placeholder="Altura (cm)"
                       value={formData.height}
                       onChange={(e) => selectOption('height', e.target.value)}
                       className="config-input text-mono"
@@ -318,8 +301,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                   { value: 'Avançado', label: 'Avançado', desc: 'Surf crítico na parte forte da onda, batidas e rasgadas fortes no vertical, gerando a própria velocidade.' },
                   { value: 'Expert', label: 'Expert / Competidor', desc: 'Surf de alta performance, aéreos, tubos profundos, manobras inovadoras em qualquer seção.' }
                 ].map((opt) => (
-                  <button
-                    type="button"
+                  <div 
                     key={opt.value}
                     onClick={() => selectOption('level', opt.value)}
                     className={`config-card-option ${formData.level === opt.value ? 'selected' : ''}`}
@@ -327,7 +309,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                     <div className="config-card-dot" />
                     <h4 className="text-mono opt-title">{opt.label}</h4>
                     <p className="opt-desc">{opt.desc}</p>
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -346,8 +328,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                   { value: 'Grandes e Fortes', label: 'Grandes e Fortes', desc: 'Ondas volumosas e com pressão. Exige pranchas maiores com rocker agressivo e caimento de borda afiado.' },
                   { value: 'Pesadas e Tubulares', label: 'Pesadas e Tubulares', desc: 'Lajes, fundos de pedra ou reef. Pranchas com caimento fino de borda e rabeta estreita (pin) para tração.' }
                 ].map((opt) => (
-                  <button
-                    type="button"
+                  <div 
                     key={opt.value}
                     onClick={() => selectOption('waveType', opt.value)}
                     className={`config-card-option ${formData.waveType === opt.value ? 'selected' : ''}`}
@@ -355,7 +336,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                     <div className="config-card-dot" />
                     <h4 className="text-mono opt-title">{opt.label}</h4>
                     <p className="opt-desc">{opt.desc}</p>
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -374,8 +355,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                   { value: 'Velocidade e Flow nas Seções', label: 'Velocidade e Flow', desc: 'Flutuar sobre as seções gordas da onda, conectando manobras com velocidade constante.' },
                   { value: 'Estilo Clássico e Gliding', label: 'Linha Clássica / Gliding', desc: 'Trimagem suave, caminhadas até o bico (noseriding) e curvas amplas com muito estilo.' }
                 ].map((opt) => (
-                  <button
-                    type="button"
+                  <div 
                     key={opt.value}
                     onClick={() => selectOption('goal', opt.value)}
                     className={`config-card-option ${formData.goal === opt.value ? 'selected' : ''}`}
@@ -383,7 +363,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                     <div className="config-card-dot" />
                     <h4 className="text-mono opt-title">{opt.label}</h4>
                     <p className="opt-desc">{opt.desc}</p>
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -397,21 +377,20 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
               
               <div className="config-grid-boards">
                 {boards.map((b) => (
-                  <button
-                    type="button"
+                  <div 
                     key={b.id}
                     onClick={() => selectOption('modelId', b.id)}
                     className={`config-board-card ${formData.modelId === b.id ? 'selected' : ''}`}
                   >
                     <div className="config-board-img-box">
-                      <img src={b.thumbImage} alt={`Prancha de surf ${b.name} — JP Surf Boards`} width={220} height={220} loading="lazy" />
+                      <img src={b.thumbImage} alt={`Prancha de surf ${b.name} — JP Surf Boards`} />
                     </div>
                     <div className="config-board-meta">
                       <span className="text-mono board-cat">{b.category}</span>
                       <h4 className="text-anton board-name">{b.name}</h4>
                       <p className="board-specs">{b.sizes} // {b.volume}</p>
                     </div>
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -452,7 +431,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                       <h4 className="text-mono section-header">MODELO PREVISTO</h4>
                       <div className="summary-board-block">
                         <div className="summary-board-img">
-                          <img src={selectedBoard.thumbImage} alt={`Prancha de surf ${selectedBoard.name} — JP Surf Boards`} width={160} height={240} loading="lazy" />
+                          <img src={selectedBoard.thumbImage} alt={`Prancha de surf ${selectedBoard.name} — JP Surf Boards`} />
                         </div>
                         <div className="summary-board-info">
                           <span className="text-mono text-accent">{selectedBoard.category}</span>
@@ -515,8 +494,8 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
         .configurator-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(5, 5, 5, 0.82);
-          backdrop-filter: blur(18px) saturate(1.15);
+          background: rgba(5, 5, 5, 0.95);
+          backdrop-filter: blur(16px);
           z-index: 1000;
           display: flex;
           align-items: flex-end;
@@ -527,8 +506,8 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
         }
 
         .configurator-modal {
-          background: linear-gradient(180deg, rgba(17, 17, 17, 0.98), rgba(7, 7, 7, 0.98));
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: var(--surface);
+          border: 1px solid var(--border);
           width: 100%;
           max-width: 820px;
           height: 90vh;
@@ -536,7 +515,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           display: flex;
           flex-direction: column;
           position: relative;
-          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.88), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85);
           animation: slideUpModal 0.35s cubic-bezier(0.16, 1, 0.3, 1);
           border-radius: 12px;
         }
@@ -649,19 +628,18 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
         }
         .config-input {
           width: 100%;
-          background: rgba(255, 255, 255, 0.035);
+          background: var(--surface-2);
           border: 1px solid var(--border);
           padding: 1.25rem 1.5rem;
           color: var(--text);
           font-size: 0.85rem;
           letter-spacing: 0.1em;
+          outline: none;
           transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        .config-input:focus-visible {
+        .config-input:focus {
           border-color: var(--accent);
           box-shadow: 0 0 8px rgba(179, 18, 23, 0.15);
-          outline: 2px solid rgba(179, 18, 23, 0.28);
-          outline-offset: 2px;
         }
         .config-input-row {
           display: grid;
@@ -676,21 +654,16 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           gap: 1.5rem;
         }
         .config-card-option {
-          background: rgba(255, 255, 255, 0.035);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--surface-2);
+          border: 1px solid var(--border);
           padding: 2rem;
           cursor: pointer;
           position: relative;
-          border-radius: 6px;
-          text-align: left;
-          color: inherit;
-          font: inherit;
-          transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+          transition: all 0.2s ease;
         }
         .config-card-option:hover {
           border-color: var(--accent);
           background: rgba(179, 18, 23, 0.02);
-          transform: translateY(-2px);
         }
         .config-card-option.selected {
           border-color: var(--accent);
@@ -733,22 +706,18 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           gap: 1rem;
         }
         .config-board-card {
-          background: rgba(255, 255, 255, 0.035);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--surface-2);
+          border: 1px solid var(--border);
           padding: 1.25rem;
           cursor: pointer;
           display: flex;
           flex-direction: column;
           align-items: center;
-          border-radius: 6px;
-          transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+          transition: all 0.2s ease;
           text-align: center;
-          color: inherit;
-          font: inherit;
         }
         .config-board-card:hover {
           border-color: var(--accent);
-          transform: translateY(-2px);
         }
         .config-board-card.selected {
           border-color: var(--accent);
@@ -765,7 +734,6 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           align-items: center;
           justify-content: center;
           border: 1px solid var(--border);
-          border-radius: 4px;
         }
         .config-board-img-box img {
           max-width: 100%;
@@ -797,10 +765,9 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
 
         /* Summary Box */
         .configurator-summary-box {
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          background: rgba(255, 255, 255, 0.035);
+          border: 1px solid var(--border);
+          background: var(--surface-2);
           padding: 1.75rem;
-          border-radius: 8px;
           display: flex;
           flex-direction: column;
           gap: 1.5rem;

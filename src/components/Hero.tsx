@@ -16,13 +16,6 @@ export const Hero: React.FC = () => {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      v.pause();
-      return;
-    }
-
     v.muted = true;
     v.defaultMuted = true;
 
@@ -83,7 +76,7 @@ export const Hero: React.FC = () => {
         muted
         playsInline
         poster={HERO_POSTER_SRC}
-        preload="metadata"
+        preload="auto"
         aria-hidden="true"
       />
 
@@ -112,16 +105,16 @@ export const Hero: React.FC = () => {
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'center',
-          textAlign: 'left',
-          padding: '0 7vw',
+          textAlign: 'center',
+          padding: '0 5vw',
           position: 'relative',
           zIndex: 3,
         }}
         className="hero-main-container"
       >
-        <div style={{ maxWidth: '900px', width: '100%' }} className="hero-content">
+        <div style={{ maxWidth: '860px', width: '100%' }} className="hero-content">
           {/* Kicker / eyebrow */}
           <div
             className="text-mono hero-kicker"
@@ -130,14 +123,15 @@ export const Hero: React.FC = () => {
               alignItems: 'center',
               gap: '0.75rem',
               fontSize: '0.6rem',
-              letterSpacing: '0.34em',
+              letterSpacing: '0.42em',
               textTransform: 'uppercase',
               color: 'var(--accent)',
-              marginBottom: '1.65rem',
+              marginBottom: '2rem',
             }}
           >
             <span style={{ width: '32px', height: '1px', background: 'var(--accent)' }} />
-            Shapes Artesanais em Florianópolis
+            Shapes Artesanais · Florianópolis, SC
+            <span style={{ width: '32px', height: '1px', background: 'var(--accent)' }} />
           </div>
 
           {/* Headline */}
@@ -145,57 +139,49 @@ export const Hero: React.FC = () => {
             className="text-anton"
             aria-label="JP Surf Boards — Pranchas de Surf Sob Medida em Florianópolis, SC"
             style={{
-              fontSize: 'clamp(3.4rem, 8.6vw, 8.2rem)',
-              lineHeight: 0.86,
+              fontSize: 'clamp(2.8rem, 7vw, 6.5rem)',
+              lineHeight: 0.92,
               letterSpacing: '0.01em',
               textTransform: 'uppercase',
               color: 'var(--text)',
               textShadow: '0 2px 40px rgba(0, 0, 0, 0.6)',
-              textWrap: 'balance',
             }}
           >
-            JP Surf
-            <span style={{ display: 'block', color: 'var(--accent)' }}>Boards</span>
+            Sob medida
+            <span style={{ display: 'block', color: 'var(--accent)' }}>
+              para o seu surf
+            </span>
           </h1>
 
-          <p
+          {/* Slogan */}
+          <div
             style={{
-              marginTop: '1.4rem',
-              maxWidth: '590px',
-              fontSize: 'clamp(1rem, 1.6vw, 1.28rem)',
-              lineHeight: 1.55,
-              color: 'rgba(245, 245, 245, 0.82)',
-              textWrap: 'pretty',
+              marginTop: '2rem',
+              fontSize: '0.95rem',
+              fontStyle: 'italic',
+              letterSpacing: '0.06em',
+              color: 'var(--accent)',
             }}
+            className="text-mono"
           >
-            Pranchas sob medida, consertos e atendimento direto com o shaper para alinhar volume,
-            outline e laminação ao seu surf.
-          </p>
-
-          <div className="hero-proof-row text-mono" aria-label="Diferenciais da JP Surf Boards">
-            <span>Shape custom</span>
-            <span>Conserto premium</span>
-            <span>Direto com o shaper</span>
+            "It comes in waves"
           </div>
 
           <div
             style={{
               display: 'flex',
               gap: '1rem',
-              marginTop: '2.2rem',
+              marginTop: '2.75rem',
               flexWrap: 'wrap',
-              justifyContent: 'flex-start',
+              justifyContent: 'center',
             }}
             className="hero-ctas"
           >
-            <button
-              className="btn-premium"
-              onClick={() => window.dispatchEvent(new CustomEvent('open-configurator'))}
-            >
-              Encontrar meu shape
-            </button>
-            <a href="#catalog" className="btn-premium-outline">
-              Ver modelos
+            <a href="#catalog" className="btn-premium">
+              Ver os modelos ➔
+            </a>
+            <a href="#about" className="btn-premium-outline">
+              A fábrica
             </a>
           </div>
         </div>
@@ -217,64 +203,24 @@ export const Hero: React.FC = () => {
           inset: 0;
           z-index: 1;
           background:
-            linear-gradient(90deg, rgba(5, 5, 5, 0.9) 0%, rgba(5, 5, 5, 0.6) 42%, rgba(5, 5, 5, 0.24) 100%),
-            radial-gradient(ellipse at 26% 45%, rgba(179, 18, 23, 0.18) 0%, transparent 34%),
-            linear-gradient(180deg, rgba(5, 5, 5, 0.45) 0%, transparent 45%, rgba(5, 5, 5, 0.88) 100%);
+            radial-gradient(ellipse at center, rgba(5, 5, 5, 0.3) 0%, rgba(5, 5, 5, 0.72) 100%),
+            linear-gradient(180deg, rgba(5, 5, 5, 0.6) 0%, transparent 22%, transparent 62%, rgba(5, 5, 5, 0.85) 100%);
           pointer-events: none;
         }
-        .hero-proof-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.65rem;
-          margin-top: 1.5rem;
-        }
-        .hero-proof-row span {
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          background: rgba(5, 5, 5, 0.38);
-          color: rgba(245, 245, 245, 0.82);
-          padding: 0.5rem 0.75rem;
-          font-size: 0.58rem;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          backdrop-filter: blur(10px);
-        }
+
 
         @media (max-width: 600px) {
-          .hero-main-container {
-            padding: 0 5vw !important;
-            align-items: center !important;
-            text-align: center !important;
-          }
-          .hero-content {
-            max-width: 100% !important;
-          }
           .hero-ctas {
             margin-top: 1.75rem !important;
             width: 100%;
           }
-          .hero-ctas a,
-          .hero-ctas button {
+          .hero-ctas a {
             width: 100%;
             justify-content: center;
           }
           .hero-kicker {
             font-size: 0.5rem !important;
-            letter-spacing: 0.22em !important;
-            justify-content: center !important;
-            width: 100%;
-          }
-          .hero-proof-row {
-            justify-content: center;
-          }
-          .hero-proof-row span {
-            font-size: 0.5rem;
-            padding: 0.45rem 0.55rem;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .hero-bg-video {
-            animation: none;
+            letter-spacing: 0.3em !important;
           }
         }
       `}</style>

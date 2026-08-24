@@ -170,8 +170,6 @@ export const About: React.FC = () => {
             <img
               src="/gallery/factory-about.webp"
               alt="JP Surf Boards Factory Workshop"
-              width={900}
-              height={1125}
               style={{
                 width: '100%',
                 height: '100%',
@@ -195,7 +193,7 @@ export const About: React.FC = () => {
           color: var(--muted);
           border: 1px solid var(--border);
           padding: 0.35rem 0.8rem;
-          transition: border-color 0.2s ease, color 0.2s ease;
+          transition: all 0.2s ease;
         }
         .tech-badge.active {
           border-color: var(--accent);
