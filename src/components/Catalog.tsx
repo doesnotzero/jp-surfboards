@@ -157,8 +157,6 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
             key={activeImage}
             src={activeImage}
             alt={`Prancha de surf ${board.name} (${board.category}) — JP Surf Boards, Florianópolis`}
-            width={600}
-            height={900}
             loading="lazy"
             style={{
               maxWidth: '100%',
@@ -223,7 +221,7 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
               onClick={() => setActiveIndex(i)}
               className={`catalog-thumb${i === activeIndex ? ' is-active' : ''}`}
             >
-              <img src={img} alt="" width={58} height={58} loading="lazy" />
+              <img src={img} alt="" loading="lazy" />
             </button>
           ))}
         </div>
@@ -269,8 +267,6 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
               key={photos[photoIndex]}
               src={photos[photoIndex]}
               alt={`${board.name} — foto ${photoIndex + 1} de ${photos.length}`}
-              width={1200}
-              height={900}
             />
             {/* Technical corner marks */}
             <span className="lb-corner tl" />
@@ -315,7 +311,7 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
                 aria-label={`Ver foto ${i + 1}`}
                 aria-pressed={i === photoIndex}
               >
-                <img src={img} alt="" width={56} height={56} loading="lazy" />
+                <img src={img} alt="" loading="lazy" />
               </button>
             ))}
           </div>
