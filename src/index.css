@@ -23,6 +23,7 @@ html {
   scroll-behavior: smooth;
   background-color: var(--bg);
   overflow-x: hidden;
+  color-scheme: dark;
 }
 
 body {
@@ -33,6 +34,29 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+}
+
+a,
+button,
+input {
+  -webkit-tap-highlight-color: rgba(179, 18, 23, 0.18);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(179, 18, 23, 0.75);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 /* Scrollbar styling */
@@ -179,6 +203,8 @@ body::before {
   transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
+  min-height: 46px;
+  touch-action: manipulation;
 }
 
 .btn-premium::before {
@@ -223,6 +249,8 @@ body::before {
   text-decoration: none;
   cursor: pointer;
   transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 46px;
+  touch-action: manipulation;
 }
 
 .btn-premium-outline:hover {
@@ -255,6 +283,21 @@ body.menu-open {
 @media(max-width: 900px) {
   .stringer-line {
     left: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
   }
 }
 

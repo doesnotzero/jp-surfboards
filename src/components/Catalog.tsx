@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { boards, type Board } from '../data/boards';
 import { useSwipe } from '../utils/useSwipe';
 
+const formatPrice = (price: number) =>
+  new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    maximumFractionDigits: 0,
+  }).format(price);
+
 /**
  * Card branco do produto com álbum de fotos.
  * A primeira imagem exibida é a principal; se houver mais de uma foto
@@ -157,6 +164,8 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
             key={activeImage}
             src={activeImage}
             alt={`Prancha de surf ${board.name} (${board.category}) — JP Surf Boards, Florianópolis`}
+            width={600}
+            height={900}
             loading="lazy"
             style={{
               maxWidth: '100%',
@@ -221,7 +230,7 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
               onClick={() => setActiveIndex(i)}
               className={`catalog-thumb${i === activeIndex ? ' is-active' : ''}`}
             >
-              <img src={img} alt="" loading="lazy" />
+              <img src={img} alt="" width={58} height={58} loading="lazy" />
             </button>
           ))}
         </div>
@@ -267,6 +276,8 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
               key={photos[photoIndex]}
               src={photos[photoIndex]}
               alt={`${board.name} — foto ${photoIndex + 1} de ${photos.length}`}
+              width={1200}
+              height={900}
             />
             {/* Technical corner marks */}
             <span className="lb-corner tl" />
@@ -311,7 +322,7 @@ const BoardImageCard: React.FC<{ board: Board }> = ({ board }) => {
                 aria-label={`Ver foto ${i + 1}`}
                 aria-pressed={i === photoIndex}
               >
-                <img src={img} alt="" loading="lazy" />
+                <img src={img} alt="" width={56} height={56} loading="lazy" />
               </button>
             ))}
           </div>
@@ -623,6 +634,25 @@ export const Catalog: React.FC = () => {
                   ))}
                 </h3>
 
+                <div className="board-spec-strip text-mono" aria-label={`Especificações do modelo ${board.name}`}>
+                  <span>
+                    <strong>{board.category}</strong>
+                    Modelo
+                  </span>
+                  <span>
+                    <strong>{board.sizes}</strong>
+                    Tamanhos
+                  </span>
+                  <span>
+                    <strong>{board.volume}</strong>
+                    Volume
+                  </span>
+                  <span>
+                    <strong>A partir de {formatPrice(board.price)}</strong>
+                    Sob encomenda
+                  </span>
+                </div>
+
                 <p
                   style={{
                     fontSize: '0.85rem',
@@ -636,7 +666,7 @@ export const Catalog: React.FC = () => {
                 </p>
 
                 {/* CTA Action */}
-                <div style={{ alignSelf: 'flex-start' }}>
+                <div className="board-cta-row">
                   <button
                     onClick={() => {
                       window.dispatchEvent(new CustomEvent('open-configurator', { detail: { modelId: board.id } }));
@@ -644,8 +674,11 @@ export const Catalog: React.FC = () => {
                     className="btn-premium"
                     style={{ cursor: 'pointer' }}
                   >
-                    Encomendar esse shape ➔
+                    Encomendar {board.name}
                   </button>
+                  <a href="#gallery" className="btn-premium-outline">
+                    Ver processo
+                  </a>
                 </div>
               </div>
             </div>
@@ -662,6 +695,43 @@ export const Catalog: React.FC = () => {
         }
         .catalog-index-link:hover {
           color: var(--accent) !important;
+        }
+        .board-spec-strip {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.65rem;
+          max-width: 520px;
+          margin-bottom: 1.7rem;
+        }
+        .board-spec-strip span {
+          min-width: 0;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(255, 255, 255, 0.025);
+          padding: 0.75rem 0.85rem;
+          color: var(--muted);
+          font-size: 0.52rem;
+          letter-spacing: 0.1em;
+          line-height: 1.45;
+          text-transform: uppercase;
+        }
+        .board-spec-strip strong {
+          display: block;
+          color: var(--text);
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 0.82rem;
+          font-weight: 500;
+          letter-spacing: 0;
+          text-transform: none;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .board-cta-row {
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+          flex-wrap: wrap;
+          align-self: flex-start;
         }
         @media (max-width: 900px) {
           .catalog-header {
@@ -940,6 +1010,7 @@ export const Catalog: React.FC = () => {
         }
         .catalog-card {
           contain: layout style paint;
+          border-radius: 6px;
         }
         @media (max-width: 900px) {
           .board-entry {
@@ -954,11 +1025,15 @@ export const Catalog: React.FC = () => {
             padding: 40px 5vw !important;
           }
           .catalog-card {
-            max-width: 280px !important;
+            max-width: 300px !important;
+            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.52) !important;
           }
           .board-info-side {
             order: 1 !important;
             padding: 3rem 36px !important;
+          }
+          .board-spec-strip {
+            max-width: 100%;
           }
           .catalog-card:hover {
             transform: none !important;
@@ -972,7 +1047,19 @@ export const Catalog: React.FC = () => {
             padding: 2.5rem 5vw !important;
           }
           .catalog-card {
-            max-width: 250px !important;
+            max-width: 260px !important;
+            padding: 1.25rem 0.8rem !important;
+          }
+          .board-spec-strip {
+            grid-template-columns: 1fr !important;
+            gap: 0.5rem !important;
+            margin-bottom: 1.45rem !important;
+          }
+          .board-cta-row,
+          .board-cta-row button,
+          .board-cta-row a {
+            width: 100%;
+            justify-content: center;
           }
         }
         @media (max-width: 900px) {

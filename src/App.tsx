@@ -142,7 +142,7 @@ const App: React.FC = () => {
           className="btn-premium"
           style={{ width: '100%', justifyContent: 'center' }}
         >
-          Falar com a fábrica ➔
+          Encontrar meu shape
         </button>
       </div>
 
@@ -242,18 +242,23 @@ const App: React.FC = () => {
         .mobile-sticky-cta {
           display: none;
           position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
+          bottom: 0.75rem;
+          left: 0.75rem;
+          right: 0.75rem;
           z-index: 590;
-          background: #050505;
-          border-top: 1px solid var(--border);
-          padding: 0.65rem 1rem;
+          background: rgba(5, 5, 5, 0.72);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+          padding: 0.45rem;
+          padding-bottom: max(0.45rem, env(safe-area-inset-bottom));
+          backdrop-filter: blur(14px);
+          box-shadow: 0 16px 34px rgba(0, 0, 0, 0.42);
           transform: translateY(0);
-          transition: transform 0.25s ease;
+          transition: opacity 0.25s ease, transform 0.25s ease;
         }
         .mobile-sticky-cta.is-hidden {
-          transform: translateY(100%);
+          opacity: 0;
+          transform: translateY(calc(100% + 1rem));
         }
 
         @media (max-width: 768px) {
@@ -273,6 +278,11 @@ const App: React.FC = () => {
           }
           .mobile-sticky-cta {
             display: block !important;
+          }
+          .mobile-sticky-cta .btn-premium {
+            min-height: 46px;
+            padding: 12px 18px;
+            font-size: 0.64rem;
           }
         }
       `}</style>
