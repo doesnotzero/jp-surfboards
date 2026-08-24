@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from 'react';
 // Vídeo de fundo do Hero (mobile e desktop). Para trocar, coloque o novo
 // arquivo em /public/hero/ e atualize o caminho abaixo.
 const HERO_VIDEO_SRC = '/hero/hero-ocean.mp4';
-const HERO_POSTER_SRC = '/social-card.jpg';
+const HERO_POSTER_SRC = '/social-card-v2.jpg';
 
 export const Hero: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
