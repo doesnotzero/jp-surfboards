@@ -383,7 +383,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                     className={`config-board-card ${formData.modelId === b.id ? 'selected' : ''}`}
                   >
                     <div className="config-board-img-box">
-                      <img src={b.thumbImage} alt={`Prancha de surf ${b.name} — JP Surf Boards`} />
+                      <img src={b.thumbImage} alt={`Prancha de surf ${b.name} — JP Surf Boards`} width={220} height={220} loading="lazy" />
                     </div>
                     <div className="config-board-meta">
                       <span className="text-mono board-cat">{b.category}</span>
@@ -431,7 +431,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
                       <h4 className="text-mono section-header">MODELO PREVISTO</h4>
                       <div className="summary-board-block">
                         <div className="summary-board-img">
-                          <img src={selectedBoard.thumbImage} alt={`Prancha de surf ${selectedBoard.name} — JP Surf Boards`} />
+                          <img src={selectedBoard.thumbImage} alt={`Prancha de surf ${selectedBoard.name} — JP Surf Boards`} width={160} height={240} loading="lazy" />
                         </div>
                         <div className="summary-board-info">
                           <span className="text-mono text-accent">{selectedBoard.category}</span>
@@ -494,8 +494,8 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
         .configurator-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(5, 5, 5, 0.95);
-          backdrop-filter: blur(16px);
+          background: rgba(5, 5, 5, 0.86);
+          backdrop-filter: blur(18px);
           z-index: 1000;
           display: flex;
           align-items: flex-end;
@@ -506,8 +506,8 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
         }
 
         .configurator-modal {
-          background: var(--surface);
-          border: 1px solid var(--border);
+          background: linear-gradient(180deg, rgba(17, 17, 17, 0.98), rgba(8, 8, 8, 0.98));
+          border: 1px solid rgba(255, 255, 255, 0.1);
           width: 100%;
           max-width: 820px;
           height: 90vh;
@@ -515,7 +515,7 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           display: flex;
           flex-direction: column;
           position: relative;
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85);
+          box-shadow: 0 30px 72px rgba(0, 0, 0, 0.86), inset 0 1px 0 rgba(255, 255, 255, 0.04);
           animation: slideUpModal 0.35s cubic-bezier(0.16, 1, 0.3, 1);
           border-radius: 12px;
         }
@@ -634,12 +634,13 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           color: var(--text);
           font-size: 0.85rem;
           letter-spacing: 0.1em;
-          outline: none;
           transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        .config-input:focus {
+        .config-input:focus-visible {
           border-color: var(--accent);
           box-shadow: 0 0 8px rgba(179, 18, 23, 0.15);
+          outline: 2px solid rgba(179, 18, 23, 0.28);
+          outline-offset: 2px;
         }
         .config-input-row {
           display: grid;
@@ -659,11 +660,13 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           padding: 2rem;
           cursor: pointer;
           position: relative;
-          transition: all 0.2s ease;
+          border-radius: 6px;
+          transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
         }
         .config-card-option:hover {
           border-color: var(--accent);
           background: rgba(179, 18, 23, 0.02);
+          transform: translateY(-2px);
         }
         .config-card-option.selected {
           border-color: var(--accent);
@@ -713,11 +716,13 @@ Gostaria de alinhar as medidas, volume ideal e conversar sobre as especificaçõ
           display: flex;
           flex-direction: column;
           align-items: center;
-          transition: all 0.2s ease;
+          border-radius: 6px;
+          transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
           text-align: center;
         }
         .config-board-card:hover {
           border-color: var(--accent);
+          transform: translateY(-2px);
         }
         .config-board-card.selected {
           border-color: var(--accent);

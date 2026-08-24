@@ -133,6 +133,8 @@ export const Gallery: React.FC = () => {
               <img
                 src={item.imgSrc}
                 alt={item.title}
+                width={900}
+                height={600}
                 style={{
                   width: '100%',
                   height: '100%',
@@ -158,7 +160,13 @@ export const Gallery: React.FC = () => {
           <div className="glb-stage" {...swipeHandlers}>
             <button className="glb-nav" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label="Foto anterior">‹</button>
             <div className="glb-img-wrap" onClick={(e) => e.stopPropagation()}>
-              <img key={items[openIndex].imgSrc} src={items[openIndex].imgSrc} alt={items[openIndex].title} />
+              <img
+                key={items[openIndex].imgSrc}
+                src={items[openIndex].imgSrc}
+                alt={items[openIndex].title}
+                width={1200}
+                height={800}
+              />
               <span className="glb-corner tl" />
               <span className="glb-corner tr" />
               <span className="glb-corner bl" />
@@ -213,6 +221,7 @@ export const Gallery: React.FC = () => {
           flex-direction: column;
           padding: 1.5rem 2rem;
           animation: glbFade 0.22s ease;
+          overscroll-behavior: contain;
         }
         @keyframes glbFade { from { opacity: 0; } to { opacity: 1; } }
         .glb-close {
@@ -345,7 +354,7 @@ export const Gallery: React.FC = () => {
 
         .photo-card {
           background: var(--surface-2);
-          transition: all 0.3s ease;
+          transition: border-color 0.3s ease, box-shadow 0.3s ease;
           border: 1px solid rgba(255, 255, 255, 0.08);
           will-change: border-color, box-shadow;
         }
