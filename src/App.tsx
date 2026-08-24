@@ -178,9 +178,8 @@ const App: React.FC = () => {
           text-decoration: none;
           cursor: pointer;
           position: relative;
-          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-          outline: none;
           padding: 0;
         }
 
@@ -231,7 +230,7 @@ const App: React.FC = () => {
           white-space: nowrap;
           opacity: 0;
           pointer-events: none;
-          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 

@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "seo:check": "node scripts/validate-seo.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
